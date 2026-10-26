@@ -152,7 +152,7 @@
             background: linear-gradient(160deg, #0e1c2e, #0a1524);
             border: 1px solid var(--line);
             border-radius: 22px;
-            padding: 10px;
+            padding: 8px;
             box-shadow: 0 24px 70px #0004;
             position: relative;
             overflow: hidden;
@@ -538,7 +538,8 @@
 
         @media(max-width:560px) {
             .wrap {
-                width: calc(100% - 26px)
+                width: calc(100% - 18px)
+                    /* ★ 18px → 侧边留白更小 */
             }
 
             .cards3,
@@ -559,6 +560,29 @@
 
             .navlinks {
                 display: none
+            }
+
+            /* ★ 新增：手机端收紧 stage / legend / note，让动画尽量填满宽度 */
+            .stage {
+                padding: 5px;
+                border-radius: 16px;
+            }
+
+            .legend {
+                gap: 10px 14px;
+                font-size: 11px;
+                padding: 6px 4px 12px;
+            }
+
+            .legend i {
+                width: 8px;
+                height: 8px;
+                margin-right: 5px;
+            }
+
+            .note {
+                font-size: 11px;
+                padding: 0 6px;
             }
         }
     </style>
@@ -601,14 +625,14 @@
                 </div>
 
                 <div class="stage">
-                    <svg id="ringSvg" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid meet" role="img"
-                        aria-label="One continuous ring of 16 GPUs across two nodes, with variable intra-node link speeds and two slower cross-node links."></svg>
+                    <svg id="ringSvg" viewBox="130 12 640 656" preserveAspectRatio="xMidYMid meet" role="img"
+                        aria-label="16 GPUs arranged on a single ring across two nodes, with variable intra-node link speeds and two slower cross-node links."></svg>
 
                     <div class="legend">
-                        <span><i style="background:#4da3ff"></i>Intra-node link · fast (80–120)</span>
-                        <span><i style="background:#ffb454"></i>Cross-node link · slow (10)</span>
-                        <span><i style="background:#61e0d0"></i>KV packet</span>
-                        <span><i style="background:#ffb454"></i>GPU waiting at barrier</span>
+                        <span><i style="background:#4da3ff"></i>Intra-node link · fast</span>
+                        <span><i style="background:#ff5f54"></i>Cross-node link · slow</span>
+                        <span><i style="background:#61e0d0"></i>Finished</span>
+                        <span><i style="background:#ffb454"></i>GPU waiting</span>
                     </div>
 
                     <p class="note">
@@ -798,19 +822,37 @@
             if (!svg) return;
             svg.innerHTML = '';
 
+            /* ==========================================================
+               基础几何：16 卡均匀分布在一个圆周上
+               G0 .. G7   → 顶部顺时针到右下（Node A）
+               G8 .. G15  → 底部顺时针到左上（Node B）
+               G7→G8 与 G15→G0 为跨节点慢速边
+               ========================================================== */
             var GPU_COUNT = 16;
+            var CX = 450;
+            var CY = 340;
+            var R = 240;
+            var SPAN = 2 * Math.PI / GPU_COUNT;     // 22.5°
+            var DEG = Math.PI / 180;
 
-            // Relative bandwidth model:
-            // Cross-node bandwidth = 10.
-            // Each intra-node link varies independently between 80 and 120.
+            /* ★ 手机端响应式参数 */
+            var IS_SMALL = window.innerWidth <= 640;
+            var NODE_R = IS_SMALL ? 27 : 22;        // 节点半径：手机端 27，桌面 22
+            function FS(n) {                        // 字号缩放（手机端 ×1.45）
+                return IS_SMALL ? Math.round(n * 1.45 * 10) / 10 : n;
+            }
+
+            /* ---------- 带宽模型（与原版完全一致） ---------- */
             var CROSS_SPEED = 5;
             var LOCAL_SPEED_MIN = 10;
-            var LOCAL_SPEED_MAX = 20;
-
-            // Convert relative bandwidth into animation duration.
-            // Cross-node duration is 3 seconds; faster links take proportionally less time.
+            var LOCAL_SPEED_MAX = 30;
             var CROSS_DUR = 3.0;
             var GAP = 0.40;
+            var FLASH_MS = 550;   // 到达闪烁持续时长（毫秒）
+
+            /* ★ 过渡动画参数 */
+            var BORN_FADE_MS = 170;    // 新数据包淡入时长
+            var LABEL_ANIM_MS = 480;   // 轮次标签弹入时长
 
             function randomLocalSpeed() {
                 return LOCAL_SPEED_MIN +
@@ -821,46 +863,32 @@
                 return CROSS_DUR * CROSS_SPEED / speed;
             }
 
-            /* ---------- Geometry: one continuous ring ---------- */
-
+            /* ---------- 节点坐标 ---------- */
             var G = [];
-            var LEFT = 82;
-            var RIGHT = 818;
-            var STEP = (RIGHT - LEFT) / 7;
-            var TOP_Y = 145;
-            var BOTTOM_Y = 355;
-
-            // Node A: G0 -> G7, left to right.
-            for (var i = 0; i < 8; i++) {
-                G.push({x: LEFT + i * STEP, y: TOP_Y});
-            }
-
-            // Node B: G8 -> G15, right to left.
-            for (var i = 0; i < 8; i++) {
-                G.push({x: RIGHT - i * STEP, y: BOTTOM_Y});
-            }
-
-            // Ring edges: G0->G1->...->G15->G0.
-            // Only G7->G8 and G15->G0 are cross-node links.
-            var links = [];
-
             for (var i = 0; i < GPU_COUNT; i++) {
-                var j = (i + 1) % GPU_COUNT;
-                var a = G[i];
-                var b = G[j];
-                var cross = (i === 7 || i === 15);
-                var speed = cross ? CROSS_SPEED : randomLocalSpeed();
-
-                links.push({
-                    a: a,
-                    b: b,
-                    cross: cross,
-                    speed: speed,
-                    dur: durationFromSpeed(speed),
-                    len: Math.hypot(b.x - a.x, b.y - a.y)
+                var a = -Math.PI / 2 + i * SPAN;
+                G.push({
+                    x: CX + R * Math.cos(a),
+                    y: CY + R * Math.sin(a),
+                    a: a
                 });
             }
 
+            /* ---------- 边（保持原版的环序与跨节点判定） ---------- */
+            var links = [];
+            for (var i = 0; i < GPU_COUNT; i++) {
+                var cross = (i === 7 || i === 15);
+                var speed = cross ? CROSS_SPEED : randomLocalSpeed();
+                links.push({
+                    a0: -Math.PI / 2 + i * SPAN,
+                    a1: -Math.PI / 2 + (i + 1) * SPAN,
+                    cross: cross,
+                    speed: speed,
+                    dur: durationFromSpeed(speed)
+                });
+            }
+
+            /* ---------- SVG 工具 ---------- */
             function el(tag, attrs, parent) {
                 var e = document.createElementNS(SVGNS, tag);
                 for (var k in attrs) e.setAttribute(k, attrs[k]);
@@ -868,166 +896,236 @@
                 return e;
             }
 
-            /* ---------- Node panels ---------- */
+            function arcD(a0, a1, r) {
+                var x0 = CX + r * Math.cos(a0), y0 = CY + r * Math.sin(a0);
+                var x1 = CX + r * Math.cos(a1), y1 = CY + r * Math.sin(a1);
+                var large = (a1 - a0) > Math.PI ? 1 : 0;
+                return 'M' + x0.toFixed(2) + ',' + y0.toFixed(2) +
+                    ' A' + r + ',' + r + ' 0 ' + large + ' 1 ' +
+                    x1.toFixed(2) + ',' + y1.toFixed(2);
+            }
 
-            el('rect', {
-                x: 45, y: 83, width: 810, height: 112, rx: 18,
-                fill: 'rgba(105,169,255,.045)',
-                stroke: 'rgba(105,169,255,.20)'
+            function bandD(a0, a1, rIn, rOut) {
+                var x0o = CX + rOut * Math.cos(a0), y0o = CY + rOut * Math.sin(a0);
+                var x1o = CX + rOut * Math.cos(a1), y1o = CY + rOut * Math.sin(a1);
+                var x1i = CX + rIn * Math.cos(a1), y1i = CY + rIn * Math.sin(a1);
+                var x0i = CX + rIn * Math.cos(a0), y0i = CY + rIn * Math.sin(a0);
+                var large = (a1 - a0) > Math.PI ? 1 : 0;
+                return 'M' + x0o.toFixed(2) + ',' + y0o.toFixed(2) +
+                    ' A' + rOut + ',' + rOut + ' 0 ' + large + ' 1 ' +
+                    x1o.toFixed(2) + ',' + y1o.toFixed(2) +
+                    ' L' + x1i.toFixed(2) + ',' + y1i.toFixed(2) +
+                    ' A' + rIn + ',' + rIn + ' 0 ' + large + ' 0 ' +
+                    x0i.toFixed(2) + ',' + y0i.toFixed(2) + ' Z';
+            }
+
+            /* ==========================================================
+               节点区域背景弧带
+               Node A: -100° → 77.5°
+               Node B:  80° → 257.5°
+               ========================================================== */
+            el('path', {
+                d: bandD(-100 * DEG, 77.5 * DEG, R - 52, R + 52),
+                fill: 'rgba(105,169,255,.055)',
+                stroke: 'rgba(105,169,255,.20)',
+                'stroke-width': 1
             });
 
-            el('rect', {
-                x: 45, y: 293, width: 810, height: 112, rx: 18,
-                fill: 'rgba(105,169,255,.045)',
-                stroke: 'rgba(105,169,255,.20)'
+            el('path', {
+                d: bandD(80 * DEG, 257.5 * DEG, R - 52, R + 52),
+                fill: 'rgba(105,169,255,.055)',
+                stroke: 'rgba(105,169,255,.20)',
+                'stroke-width': 1
             });
 
+            /* ---------- 节点区域标签（左上 / 左下）★ 手机端字号同步放大 ---------- */
             var tA = el('text', {
-                x: 60, y: 105,
+                x: 480,
+                y: IS_SMALL ? 30 : 40,
+                'text-anchor': 'middle',
                 fill: '#7fb6ff',
-                'font-size': 10.5,
+                'font-size': FS(10.5),
                 'font-weight': 700,
                 'letter-spacing': '.7'
             });
-            tA.textContent = 'NODE A · INTRA-NODE INTERCONNECT · FAST';
+            tA.textContent = 'NODE A · G0–G7';
+            el('circle', {cx: IS_SMALL ? 432 : 420, cy: IS_SMALL ? 26 : 36, r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff'}, svg);
 
             var tB = el('text', {
-                x: 60, y: 315,
+                x: 440,
+                y: IS_SMALL ? 662 : 652,
+                'text-anchor': 'middle',
                 fill: '#7fb6ff',
-                'font-size': 10.5,
+                'font-size': FS(10.5),
                 'font-weight': 700,
                 'letter-spacing': '.7'
             });
-            tB.textContent = 'NODE B · INTRA-NODE INTERCONNECT · FAST';
+            tB.textContent = 'NODE B · G8–G15';
+            el('circle', {cx: IS_SMALL ? 432 : 380, cy: IS_SMALL ? 658 : 648, r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff'}, svg);
 
-            /* ---------- Draw ring links ---------- */
-
+            /* ==========================================================
+               绘制环边（弧线）
+               ========================================================== */
             links.forEach(function (l) {
-                var geo = {
-                    x1: l.a.x,
-                    y1: l.a.y,
-                    x2: l.b.x,
-                    y2: l.b.y,
-                    'stroke-linecap': 'round'
-                };
+                var d = arcD(l.a0, l.a1, R);
 
-                el('line', Object.assign({}, geo, {
+                el('path', {
+                    d: d, fill: 'none',
                     stroke: l.cross ? '#3a2a12' : '#132539',
-                    'stroke-width': 20
-                }));
+                    'stroke-width': 20,
+                    'stroke-linecap': 'round'
+                });
 
-                el('line', Object.assign({}, geo, {
+                el('path', {
+                    d: d, fill: 'none',
                     stroke: l.cross ? '#5a3f1a' : '#1c3550',
-                    'stroke-width': 12
-                }));
+                    'stroke-width': 12,
+                    'stroke-linecap': 'round'
+                });
 
-                var flow = el('line', Object.assign({}, geo, {
-                    stroke: l.cross ? '#ffb454' : '#4da3ff',
+                var flow = el('path', {
+                    d: d, fill: 'none',
+                    stroke: l.cross ? '#ff5f54' : '#4da3ff',
                     'stroke-width': 3,
                     'stroke-dasharray': '14 34',
-                    opacity: 0.9
-                }));
+                    opacity: 0.9,
+                    'stroke-linecap': 'round'
+                });
 
                 flow.style.animation =
                     'dashflow ' + (l.cross ? 0.7 : 0.2) + 's linear infinite';
             });
 
-            /* ---------- Slow-link labels ---------- */
+            /* ==========================================================
+               跨节点 SLOW 标签 ★ 手机端徽标和字号同步放大
+               G7→G8 中点 78.75°，G15→G0 中点 258.75°
+               ========================================================== */
+            // var SLOW_W = IS_SMALL ? 72 : 50;
+            // var SLOW_H = IS_SMALL ? 28 : 20;
+            // [78.75 * DEG, 258.75 * DEG].forEach(function (ang) {
+            //     var r = R + 58;
+            //     var px = CX + r * Math.cos(ang);
+            //     var py = CY + r * Math.sin(ang);
 
-            [
-                {idx: 7, x: 818, y: 244},
-                {idx: 15, x: 82, y: 244}
-            ].forEach(function (item) {
-                el('rect', {
-                    x: item.x - 25, y: item.y - 11,
-                    width: 50, height: 20, rx: 6,
-                    fill: '#241b10', stroke: '#6b4d20'
-                });
+            //     el('rect', {
+            //         x: px - SLOW_W / 2,
+            //         y: py - SLOW_H / 2,
+            //         width: SLOW_W, height: SLOW_H,
+            //         rx: IS_SMALL ? 9 : 6,
+            //         fill: '#241b10', stroke: '#6b4d20'
+            //     });
 
-                var label = el('text', {
-                    x: item.x, y: item.y + 3.5,
-                    'text-anchor': 'middle',
-                    fill: '#ffb454',
-                    'font-size': 9.5,
-                    'font-weight': 800
-                });
-                label.textContent = 'SLOW';
-            });
+            //     var label = el('text', {
+            //         x: px, y: py + FS(3.5),
+            //         'text-anchor': 'middle',
+            //         fill: '#ffb454',
+            //         'font-size': FS(9.5),
+            //         'font-weight': 800
+            //     });
+            //     label.textContent = 'SLOW';
+            // });
 
-            /* ---------- GPUs ---------- */
-
+            /* ==========================================================
+               GPUs
+               ========================================================== */
             var gpus = G.map(function (g, i) {
+                // 到达闪烁用的扩散光环（在节点圆下方，不遮挡文字）
+                var halo = el('circle', {
+                    cx: g.x, cy: g.y, r: NODE_R + 2,
+                    fill: 'none',
+                    stroke: '#61e0d0',
+                    'stroke-width': 1.6,
+                    opacity: 0
+                });
+
                 el('circle', {
-                    cx: g.x, cy: g.y, r: 22,
+                    cx: g.x, cy: g.y, r: NODE_R,
                     fill: '#0a1626'
                 });
 
                 var ring = el('circle', {
-                    cx: g.x, cy: g.y, r: 22,
+                    cx: g.x, cy: g.y, r: NODE_R,
                     fill: 'none', stroke: '#2b4363',
                     'stroke-width': 2.5
                 });
 
                 var txt = el('text', {
-                    x: g.x, y: g.y + 4,
+                    x: g.x, y: g.y + FS(4),
                     'text-anchor': 'middle',
                     fill: '#dbe9fb',
-                    'font-size': 11,
+                    'font-size': FS(11),
                     'font-weight': 800
                 });
                 txt.textContent = 'G' + i;
 
-                return {ring: ring};
+                return {ring: ring, halo: halo};
             });
 
-            // Re-append node titles to keep them above the links.
-            svg.appendChild(tA);
-            svg.appendChild(tB);
+            /* ==========================================================
+               中心进度环 + 读数
+               ========================================================== */
+            var PROG_R = 148;
+            var PROG_C = 2 * Math.PI * PROG_R;
 
-            /* ---------- Center readout ---------- */
+            el('circle', {
+                cx: CX, cy: CY, r: PROG_R,
+                fill: 'none', stroke: '#16283d', 'stroke-width': 5
+            }, svg);
+
+            var progArc = el('circle', {
+                cx: CX, cy: CY, r: PROG_R,
+                fill: 'none', stroke: '#61e0d0', 'stroke-width': 5,
+                'stroke-linecap': 'round',
+                'stroke-dasharray': PROG_C,
+                'stroke-dashoffset': PROG_C,
+                transform: 'rotate(-90 ' + CX + ' ' + CY + ')'
+            }, svg);
 
             var roundLabel = el('text', {
-                x: 450, y: 225,
+                x: CX, y: CY - FS(20),
                 'text-anchor': 'middle',
                 fill: '#dbe9fb',
-                'font-size': 16,
+                'font-size': FS(20),
                 'font-weight': 800,
-                'letter-spacing': '2'
-            });
-            roundLabel.textContent = 'ROUND 0';
+                'letter-spacing': 2
+            }, svg);
+            roundLabel.textContent = 'ROUND 1 / 16';
 
             var statusLabel = el('text', {
-                x: 450, y: 247,
+                x: CX, y: CY + FS(6),
                 'text-anchor': 'middle',
                 fill: '#8fa6c2',
-                'font-size': 11
-            });
+                'font-size': FS(12),
+            }, svg);
             statusLabel.textContent = 'Propagating KV blocks';
 
             var barrierLabel = el('text', {
-                x: 450, y: 268,
+                x: CX, y: CY + FS(28),
                 'text-anchor': 'middle',
                 fill: '#5f7a99',
-                'font-size': 10,
+                'font-size': FS(11),
                 'letter-spacing': '.7'
-            });
-            barrierLabel.textContent = 'GLOBAL BARRIER · 0 / 16 LINKS ARRIVED';
+            }, svg);
+            barrierLabel.textContent = 'BARRIER · 0/16 LINKS';
 
-            /* ---------- Packet state ---------- */
-
+            /* ==========================================================
+               数据包状态
+               ========================================================== */
             var packets = [];
             var phase = 'move';
             var gapLeft = 0;
             var round = 0;
             var last = 0;
 
+            /* ★ 轮次标签弹入动画的起始时刻（0 表示空闲） */
+            var labelAnimStart = 0;
+
             function spawnRound() {
                 packets.forEach(function (p) {
                     p.grp.remove();
                 });
 
-                // Resample intra-node speed every round.
-                // Cross-node links remain fixed at speed 10.
+                // 每轮重新采样节点内带宽；跨节点保持固定慢速
                 links.forEach(function (l) {
                     if (!l.cross) {
                         l.speed = randomLocalSpeed();
@@ -1037,6 +1135,8 @@
                         l.dur = CROSS_DUR;
                     }
                 });
+
+                var born = performance.now();
 
                 packets = links.map(function (l, idx) {
                     var grp = el('g', {});
@@ -1056,23 +1156,29 @@
                         idx: idx,
                         t: 0,
                         grp: grp,
-                        halo: halo
+                        halo: halo,
+                        arrivedAt: -1,        // 到达时刻（ms），-1 表示未到达
+                        bornAt: born          // ★ 出生时刻，用于淡入
                     };
                 });
 
-                round = (round + 1) % 16;
-                roundLabel.textContent = 'ROUND ' + round;
+                round = (round % 15) + 1;   // 1 → 16 循环
+                roundLabel.textContent = 'ROUND ' + round + ' / 15';
+
+                /* ★ 每轮开始时让中心轮次标签弹一下 */
+                labelAnimStart = performance.now();
+
                 phase = 'move';
             }
 
             function positionOf(p) {
                 var l = links[p.idx];
-                var pad = 24 / l.len;
-                var tt = pad + (1 - 2 * pad) * p.t;
-
+                var padFrac = (NODE_R + 4) / (R * SPAN);   // 两端留出节点半径
+                var frac = padFrac + (1 - 2 * padFrac) * p.t;
+                var a = l.a0 + frac * SPAN;
                 return {
-                    x: l.a.x + (l.b.x - l.a.x) * tt,
-                    y: l.a.y + (l.b.y - l.a.y) * tt
+                    x: CX + R * Math.cos(a),
+                    y: CY + R * Math.sin(a)
                 };
             }
 
@@ -1080,15 +1186,34 @@
                 var now = performance.now();
                 var allDone = doneCount === GPU_COUNT;
 
-                // Update packet positions and arrival pulses.
+                /* ★ 间隙进度：1 → 0，用于数据包的退场动画 */
+                var gapFrac = (phase === 'gap')
+                    ? Math.max(0, Math.min(1, gapLeft / GAP))
+                    : 1;
+
+                /* ---- 数据包位置 + 到达脉冲 + 出入场过渡 ---- */
                 for (var i = 0; i < packets.length; i++) {
                     var p = packets[i];
                     var pos = positionOf(p);
 
+                    /* ★ 入场：新包从节点里"冒"出来，170ms 内放大淡入
+                       ★ 退场：全部到齐后的间隙里，原地收缩淡出，像被 GPU 吸进去 */
+                    var vis, sc;
+                    if (phase === 'gap') {
+                        var e = gapFrac * gapFrac * (3 - 2 * gapFrac);   // smoothstep 缓出
+                        vis = e;
+                        sc = 0.2 + 0.8 * e;
+                    } else {
+                        var k = Math.min(1, (now - p.bornAt) / BORN_FADE_MS);
+                        vis = k;
+                        sc = 0.45 + 0.55 * k;
+                    }
+
+                    p.grp.setAttribute('opacity', vis.toFixed(3));
                     p.grp.setAttribute(
                         'transform',
-                        'translate(' + pos.x.toFixed(1) + ',' +
-                        pos.y.toFixed(1) + ')'
+                        'translate(' + pos.x.toFixed(1) + ',' + pos.y.toFixed(1) + ')' +
+                        ' scale(' + sc.toFixed(3) + ')'
                     );
 
                     if (p.t >= 1) {
@@ -1104,17 +1229,31 @@
                     }
                 }
 
-                // A GPU waits when its inbound packet has arrived but
-                // at least one link in the global ring is still in flight.
+                /* ---- GPU 等待 / 完成状态 + 到达闪烁 ---- */
                 for (var g = 0; g < GPU_COUNT; g++) {
                     var inIdx = (g + GPU_COUNT - 1) % GPU_COUNT;
-                    var inDone = packets[inIdx].t >= 1;
+                    var inPkt = packets[inIdx];
+                    var inDone = inPkt.t >= 1;
                     var outDone = packets[g].t >= 1;
                     var waiting = inDone && !allDone;
 
+                    /* 到达闪烁：数据包刚落地的瞬间扩散一圈光环 */
+                    var flash = 0;
+                    if (inPkt.arrivedAt > 0) {
+                        var fk = 1 - (now - inPkt.arrivedAt) / FLASH_MS;
+                        if (fk > 0) {
+                            if (fk > 1) fk = 1;
+                            flash = fk * fk * (3 - 2 * fk);   // smoothstep 缓出
+                        }
+                    }
+                    var gh = gpus[g].halo;
+                    gh.setAttribute('stroke', links[inIdx].cross ? '#ffb454' : '#61e0d0');
+                    gh.setAttribute('r', (NODE_R + 2 + flash * 11).toFixed(2));
+                    gh.setAttribute('stroke-width', (1.6 + flash * 2.4).toFixed(2));
+                    gh.setAttribute('opacity', (flash * 0.8).toFixed(3));
+
                     if (waiting) {
                         var pl = 0.5 + 0.5 * Math.sin(now / 210);
-
                         gpus[g].ring.setAttribute('stroke', '#ffb454');
                         gpus[g].ring.setAttribute(
                             'stroke-width',
@@ -1135,13 +1274,43 @@
                     }
                 }
 
+                /* ---- 中心进度环 ---- */
+                var sumT = 0;
+                for (var k = 0; k < packets.length; k++) sumT += packets[k].t;
+                var prog = ((round - 1) + sumT / GPU_COUNT) / 16;
+                progArc.setAttribute(
+                    'stroke-dashoffset',
+                    (PROG_C * (1 - prog)).toFixed(2)
+                );
+
+                /* ★ 轮次标签弹入（easeOutBack，带一点点回弹） */
+                if (labelAnimStart) {
+                    var lk = (now - labelAnimStart) / LABEL_ANIM_MS;
+                    if (lk >= 1) {
+                        labelAnimStart = 0;
+                        roundLabel.removeAttribute('transform');
+                        roundLabel.setAttribute('opacity', 1);
+                    } else {
+                        var c1 = 1.70158;
+                        var c3 = c1 + 1;
+                        var eb = 1 + c3 * Math.pow(lk - 1, 3) + c1 * Math.pow(lk - 1, 2);
+                        var sL = 0.55 + 0.45 * eb;
+                        var lx = CX, ly = CY - FS(20);
+                        roundLabel.setAttribute('opacity', Math.min(1, lk * 3).toFixed(3));
+                        roundLabel.setAttribute(
+                            'transform',
+                            'translate(' + lx + ' ' + ly + ') scale(' + sL.toFixed(3) + ')' +
+                            ' translate(' + (-lx) + ' ' + (-ly) + ')'
+                        );
+                    }
+                }
+
+                /* ---- 状态文本 ---- */
                 if (allDone) {
-                    statusLabel.textContent =
-                        'All links delivered — barrier released';
+                    statusLabel.textContent = 'Barrier released';
                     statusLabel.setAttribute('fill', '#61e0d0');
                 } else if (doneCount > 0) {
-                    statusLabel.textContent =
-                        doneCount + '/16 links delivered — waiting on cross-node links';
+                    statusLabel.textContent = doneCount + '/16 links arrived';
                     statusLabel.setAttribute('fill', '#ffb454');
                 } else {
                     statusLabel.textContent = 'Propagating KV blocks';
@@ -1149,11 +1318,12 @@
                 }
 
                 barrierLabel.textContent =
-                    'GLOBAL BARRIER · ' + doneCount + ' / 16 LINKS ARRIVED';
+                    'BARRIER · ' + doneCount + '/16 LINKS';
             }
 
-            /* ---------- Main loop ---------- */
-
+            /* ==========================================================
+               主循环
+               ========================================================== */
             function tick(now) {
                 requestAnimationFrame(tick);
 
@@ -1167,6 +1337,8 @@
 
                 if (phase === 'gap') {
                     gapLeft -= dt;
+                    // 间隙期间也重绘一次，让数据包收缩淡出 + 闪烁自然收尾
+                    draw(GPU_COUNT);
                     if (gapLeft <= 0) spawnRound();
                     return;
                 }
@@ -1177,11 +1349,14 @@
                     var p = packets[i];
                     var l = links[p.idx];
 
+                    var prevT = p.t;
                     p.t += dt / l.dur;
 
                     if (p.t >= 1) {
                         p.t = 1;
                         doneCount++;
+                        // 首次跨过 1 的那一帧记下到达时刻
+                        if (prevT < 1) p.arrivedAt = now;
                     }
                 }
 
