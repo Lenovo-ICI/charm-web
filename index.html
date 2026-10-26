@@ -1520,10 +1520,10 @@
             el('path', {d: bandD(80 * DEG, 257.5 * DEG, R - 52, R + 52), fill: 'rgba(105,169,255,.055)', stroke: 'rgba(105,169,255,.20)'});
             var tA = el('text', {x: 480, y: IS_SMALL ? 30 : 40, 'text-anchor': 'middle', fill: '#7fb6ff', 'font-size': FS(10.5), 'font-weight': 700});
             tA.textContent = 'NODE A · G0–G7';
-            el('circle', {cx: IS_SMALL ? 432 : 420, cy: IS_SMALL ? 26 : 36, r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff'});
+            el('circle', {cx: IS_SMALL ? 400 : 420, cy: IS_SMALL ? 26 : 36, r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff'});
             var tB = el('text', {x: 440, y: IS_SMALL ? 662 : 652, 'text-anchor': 'middle', fill: '#7fb6ff', 'font-size': FS(10.5), 'font-weight': 700});
             tB.textContent = 'NODE B · G8–G15';
-            el('circle', {cx: IS_SMALL ? 432 : 380, cy: IS_SMALL ? 658 : 648, r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff'});
+            el('circle', {cx: IS_SMALL ? 360 : 380, cy: IS_SMALL ? 658 : 648, r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff'});
             var links = [];
             for (i = 0; i < GPU_COUNT; i++) {
                 var cross = i === 7 || i === 15, speed = cross ? CROSS_SPEED : randomLocalSpeed();
