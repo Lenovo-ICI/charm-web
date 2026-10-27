@@ -40,19 +40,6 @@
             margin: 0 auto
         }
 
-        .local-banner {
-            position: sticky;
-            top: 0;
-            z-index: 30;
-            background: #4c3518;
-            color: #ffe4b0;
-            text-align: center;
-            font-size: 11px;
-            letter-spacing: .09em;
-            padding: 7px 12px;
-            border-bottom: 1px solid #8a6431
-        }
-
         .topbar {
             display: flex;
             align-items: center;
@@ -111,7 +98,6 @@
         .lead {
             color: #b6c7dc;
             font-size: 17px;
-            max-width: 660px;
             margin: 0
         }
 
@@ -133,7 +119,6 @@
         .sec-head p {
             color: var(--muted);
             font-size: 15px;
-            max-width: 750px;
             margin: 0
         }
 
@@ -499,12 +484,101 @@
             margin-top: 0
         }
 
+        /* ---------- footer ---------- */
         footer {
-            padding: 34px 0 54px;
+            margin-top: 30px;
             border-top: 1px solid #ffffff12;
-            color: #7890ad;
-            font-size: 12px;
-            margin-top: 20px
+            background: linear-gradient(180deg, transparent, rgba(13, 26, 43, .55));
+        }
+
+        .footer-inner {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 16px;
+            align-items: stretch;
+            padding: 34px 0;
+        }
+
+        .partner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            min-height: 62px;
+            border-radius: 14px;
+            background: linear-gradient(160deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+            border: 1px solid #ffffff14;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .06);
+            transition: border-color .25s, background .25s, transform .25s, box-shadow .25s;
+        }
+
+        .partner:hover {
+            border-color: #ffffff2e;
+            background: linear-gradient(160deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03));
+            transform: translateY(-1px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .1);
+        }
+
+        .partner-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .partner-link:hover .partner-logo {
+            filter: brightness(1.2) saturate(1.12);
+        }
+
+        .partner-link:focus-visible {
+            box-shadow: 0 0 0 3px rgba(97, 224, 208, .35);
+        }
+
+        .partner-logo {
+            display: block;
+            height: 36px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+            filter: brightness(1.08) saturate(1.05);
+            transition: filter .25s;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 11px 22px;
+            min-height: 62px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .02em;
+            color: var(--text);
+            text-decoration: none;
+            background: linear-gradient(160deg, #12253c, #0c1a2b);
+            border: 1px solid #2a4463;
+            white-space: nowrap;
+            transition: border-color .2s, color .2s, box-shadow .2s, transform .2s, background .2s;
+        }
+
+        .contact-btn svg {
+            width: 15px;
+            height: 15px;
+            flex: none;
+        }
+
+        .contact-btn:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+            background: linear-gradient(160deg, #16304b, #0e2033);
+            box-shadow: 0 0 0 3px rgba(97, 224, 208, .08), 0 10px 26px rgba(97, 224, 208, .14);
+            transform: translateY(-1px);
         }
 
         @keyframes dashflow {
@@ -513,7 +587,6 @@
             }
         }
 
-        /* CHARM+ visualization */
         .charm-compare-head {
             margin-top: 42px
         }
@@ -562,6 +635,7 @@
         .charm-controls {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 12px;
             flex-wrap: wrap;
             padding: 0 10px 12px
@@ -583,39 +657,25 @@
             border-color: var(--blue)
         }
 
-        .charm-local-active {
-            stroke: var(--blue) !important;
-            stroke-width: 3.5 !important;
-            stroke-dasharray: 7 8;
-            animation: charmDash .65s linear infinite
+        .speed-group {
+            display: inline-flex;
+            gap: 4px;
+            margin-left: 6px;
+            padding-left: 10px;
+            border-left: 1px solid #345577;
         }
 
-        .charm-column-active {
-            stroke: var(--amber) !important;
-            stroke-width: 3.5 !important;
-            stroke-dasharray: 7 7;
-            animation: charmDash .55s linear infinite
+        .speed-group .speed-btn {
+            padding: 9px 12px;
+            border-radius: 7px;
+            font-family: ui-monospace, monospace;
         }
 
-        .charm-skew-active {
-            stroke: var(--cyan) !important;
-            stroke-width: 3.5 !important;
-            stroke-dasharray: 5 7;
-            animation: charmDash .7s linear infinite
-        }
-
-        .charm-packet {
-            pointer-events: none
-        }
-
-        .charm-pipeline-active {
-            stroke: var(--cyan) !important
-        }
-
-        @keyframes charmDash {
-            to {
-                stroke-dashoffset: -30
-            }
+        .speed-group .speed-btn.active {
+            background: #1c3a59;
+            border-color: var(--cyan);
+            color: var(--cyan);
+            box-shadow: 0 0 10px #61e0d033;
         }
 
         @keyframes charmPulse {
@@ -653,10 +713,71 @@
                 width: calc(100% - 18px)
             }
 
+            /* Hero 区域压缩 */
+            .hero {
+                padding: 34px 0 16px
+            }
+
+            .hero h1 {
+                margin: 12px 0
+            }
+
+            .lead {
+                font-size: 15.5px
+            }
+
+            /* Section 间距压缩 */
+            section {
+                padding: 40px 0
+            }
+
+            .sec-head {
+                margin-bottom: 18px
+            }
+
+            .sec-head h2 {
+                margin: 6px 0 8px
+            }
+
+            .sec-head p {
+                font-size: 14px
+            }
+
+            /* 卡片网格 */
             .cards3,
             .methods,
             .bigstats {
                 grid-template-columns: 1fr
+            }
+
+            .cards3,
+            .methods {
+                gap: 10px;
+                margin-top: 18px
+            }
+
+            .bigstats {
+                gap: 10px
+            }
+
+            /* 卡片内边距 */
+            .card,
+            .method {
+                padding: 16px
+            }
+
+            .stat {
+                padding: 16px
+            }
+
+            .stat .num {
+                font-size: 32px
+            }
+
+            /* 图表内边距 */
+            .chart {
+                margin-top: 12px;
+                padding: 18px
             }
 
             .barrow {
@@ -665,14 +786,12 @@
                 font-size: 11.5px
             }
 
-            .stat .num {
-                font-size: 32px
-            }
-
+            /* 顶栏 */
             .navlinks {
                 display: none
             }
 
+            /* 可视化舞台 */
             .stage {
                 padding: 5px;
                 border-radius: 16px
@@ -695,6 +814,7 @@
                 padding: 0 6px
             }
 
+            /* CHARM+ 动画控制 */
             .charm-toolbar {
                 font-size: 9px;
                 padding: 8px 5px 2px
@@ -706,6 +826,31 @@
 
             .charm-controls button {
                 padding: 8px 12px
+            }
+
+            .speed-group {
+                padding-left: 6px;
+                margin-left: 0;
+            }
+
+            .speed-group .speed-btn {
+                padding: 8px 9px;
+            }
+
+            /* Footer: 堆叠为单列, 宽度一致 */
+            .footer-inner {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 24px 0 28px;
+            }
+
+            .partner,
+            .contact-btn {
+                min-height: 56px;
+            }
+
+            .partner-logo {
+                height: 30px;
             }
         }
 
@@ -723,8 +868,6 @@
 </head>
 
 <body>
-    <div class="local-banner">LOCAL PREVIEW · CONFIDENTIAL REVIEW COPY — DO NOT DISTRIBUTE</div>
-
     <header class="wrap topbar">
         <div class="brand">CHARM<span>+</span></div>
         <nav class="navlinks">
@@ -736,17 +879,18 @@
 
     <main>
         <div class="wrap hero">
-            <div class="eyebrow">Interactive paper explorer</div>
             <h1>One slow link can stall <em>the entire ring</em></h1>
-            <p class="lead"><strong>CHARM+</strong> restructures distributed attention communication using hierarchical
-                data movement, parallel streams, and online merging to reduce exposed communication.</p>
+            <p class="lead"><strong>CHARM+</strong> reorganizes sequential communications into levels to enable
+                intra-level parallelism and computation overlap, and decouples cross- from intra-hardware communication
+                to eliminate bandwidth-imbalance-induced synchronization overhead.
+            </p>
         </div>
 
         <section id="p1">
             <div class="wrap">
                 <div class="sec-head">
                     <div class="tag">01 / The bottleneck</div>
-                    <h2>Ring-Attention: one slow link blocks everyone</h2>
+                    <h2>Ring-Attention: Serialization and Bandwidth-Imbalance Sensitivity</h2>
                     <p>Sixteen GPUs form a single ring across two nodes. Each round transfers KV to the next rank.
                         Intra-node links have variable arrival times, while the two cross-node boundaries are slower.
                     </p>
@@ -765,569 +909,21 @@
                         slowest transfers.</p>
                 </div>
 
-                <div class="sec-head" style="margin:34px 0 16px">
-                    <div class="tag">01b / Same ring · CHARM+ forward</div>
-                    <h3 style="margin:6px 0 8px;font-size:19px;letter-spacing:-.02em">Two layers instead of one ring
-                    </h3>
-                    <p style="color:var(--muted);font-size:14px;margin:0;max-width:700px">
-                        Same 16 GPUs on the same circle. But partners are no longer the adjacent rank:
-                        intra-node traffic rotates in <strong style="color:#cfe3ff">staggered groups</strong>,
-                        cross-node traffic
-                        exchanges along <strong style="color:#cfe3ff">columns</strong> (through the centre).
-                        Q, KV, column-Q and outputs each ride their own stream, so compute overlaps transfer.
-                    </p>
-                </div>
-
-                <div class="stage" style="margin-top:14px">
-                    <svg id="charmSvg" viewBox="130 12 640 656" preserveAspectRatio="xMidYMid meet" role="img"
-                        aria-label="16 GPUs on a circle split into two nodes. Intra-node staggered group rotation along the arc; cross-node column exchange through the centre; separate Q, KV, column-Q and output streams."></svg>
-
-                    <div class="legend">
-                        <span><i style="background:#69a9ff"></i>Node A · staggered rotate</span>
-                        <span><i style="background:#b48cff"></i>Node B · staggered rotate</span>
-                        <span><i style="background:#61e0d0"></i>KV stream</span>
-                        <span><i style="background:#ffb454"></i>Column-Q stream</span>
-                        <span><i style="background:#a4edc0"></i>Output reduce</span>
-                    </div>
-
-                    <p class="note">
-                        Column exchange runs through the centre hub; intra-node rotation never touches the adjacent
-                        rank.
-                        Radial spokes = cross-node columns, arc paths = intra-node staggered groups.
-                    </p>
-                </div>
-
-                <script>
-                    (function () {
-                        'use strict';
-
-                        var SVGNS = 'http://www.w3.org/2000/svg';
-                        var svg = document.getElementById('charmSvg');
-                        if (!svg) return;
-                        svg.innerHTML = '';
-
-                        /* ==========================================================
-                           几何：16 卡同一圆周
-                           G0..G7   = Node A（右半圈）
-                           G8..G15  = Node B（左半圈）
-                           列配对   = G(i) ↔ G(i+8)，直径穿过圆心
-                           节点内   = 错位分组偏移 3 的弧线轮转
-                           ========================================================== */
-                        var N = 16;
-                        var CX = 450, CY = 340, R = 240;
-                        var SPAN = 2 * Math.PI / N;
-                        var DEG = Math.PI / 180;
-
-                        var IS_SMALL = window.innerWidth <= 640;
-                        var NODE_R = IS_SMALL ? 27 : 22;
-                        function FS(n) {return IS_SMALL ? Math.round(n * 1.45 * 10) / 10 : n;}
-
-                        var HUB_R = IS_SMALL ? 98 : 92;
-                        var PROG_R = IS_SMALL ? 150 : 168;
-                        var PROG_C = 2 * Math.PI * PROG_R;
-
-                        var P = [];
-                        for (var i = 0; i < N; i++) {
-                            var a = -Math.PI / 2 + i * SPAN;
-                            P.push({x: CX + R * Math.cos(a), y: CY + R * Math.sin(a), a: a});
-                        }
-
-                        function isB(i) {return i >= 8;}
-                        function nodeBase(i) {return i >= 8 ? 8 : 0;}
-                        function counterpart(i) {return (i + 8) % 16;}
-
-                        function el(tag, attrs, parent) {
-                            var e = document.createElementNS(SVGNS, tag);
-                            for (var k in attrs) e.setAttribute(k, attrs[k]);
-                            (parent || svg).appendChild(e);
-                            return e;
-                        }
-
-                        function bandD(a0, a1, rIn, rOut) {
-                            var x0o = CX + rOut * Math.cos(a0), y0o = CY + rOut * Math.sin(a0);
-                            var x1o = CX + rOut * Math.cos(a1), y1o = CY + rOut * Math.sin(a1);
-                            var x1i = CX + rIn * Math.cos(a1), y1i = CY + rIn * Math.sin(a1);
-                            var x0i = CX + rIn * Math.cos(a0), y0i = CY + rIn * Math.sin(a0);
-                            var large = (a1 - a0) > Math.PI ? 1 : 0;
-                            return 'M' + x0o.toFixed(2) + ',' + y0o.toFixed(2) +
-                                ' A' + rOut + ',' + rOut + ' 0 ' + large + ' 1 ' +
-                                x1o.toFixed(2) + ',' + y1o.toFixed(2) +
-                                ' L' + x1i.toFixed(2) + ',' + y1i.toFixed(2) +
-                                ' A' + rIn + ',' + rIn + ' 0 ' + large + ' 0 ' +
-                                x0i.toFixed(2) + ',' + y0i.toFixed(2) + ' Z';
-                        }
-
-                        /* ---------- 两节点背景扇区 ---------- */
-                        el('path', {
-                            d: bandD(-101.25 * DEG, 78.75 * DEG, R - 52, R + 52),
-                            fill: 'rgba(105,169,255,.055)',
-                            stroke: 'rgba(105,169,255,.20)',
-                            'stroke-width': 1
-                        });
-                        el('path', {
-                            d: bandD(78.75 * DEG, 258.75 * DEG, R - 52, R + 52),
-                            fill: 'rgba(170,130,255,.055)',
-                            stroke: 'rgba(170,130,255,.20)',
-                            'stroke-width': 1
-                        });
-
-                        /* ---------- 节点标签 ---------- */
-                        var labA = el('text', {
-                            x: CX + 330 * Math.cos(-52 * DEG),
-                            y: CY + 330 * Math.sin(-52 * DEG) + FS(3.5),
-                            'text-anchor': 'middle',
-                            fill: '#7fb6ff',
-                            'font-size': FS(10.5),
-                            'font-weight': 700,
-                            'letter-spacing': '.7'
-                        });
-                        labA.textContent = 'NODE A · G0–G7';
-
-                        var labB = el('text', {
-                            x: CX + 330 * Math.cos(128 * DEG),
-                            y: CY + 330 * Math.sin(128 * DEG) + FS(3.5),
-                            'text-anchor': 'middle',
-                            fill: '#b9a4ff',
-                            'font-size': FS(10.5),
-                            'font-weight': 700,
-                            'letter-spacing': '.7'
-                        });
-                        labB.textContent = 'NODE B · G8–G15';
-
-                        /* ---------- 跨节点列辐射线（16 条，通向中心 hub） ---------- */
-                        var spokes = [];
-                        for (var s = 0; s < N; s++) {
-                            var ang = P[s].a;
-                            var r1 = HUB_R + 5;
-                            var r2 = R - NODE_R - 9;
-                            spokes.push(el('line', {
-                                x1: CX + r1 * Math.cos(ang),
-                                y1: CY + r1 * Math.sin(ang),
-                                x2: CX + r2 * Math.cos(ang),
-                                y2: CY + r2 * Math.sin(ang),
-                                stroke: isB(s) ? '#3b3057' : '#1e3552',
-                                'stroke-width': 1.5,
-                                'stroke-dasharray': '3 8',
-                                'stroke-linecap': 'round'
-                            }));
-                        }
-
-                        /* ---------- 外圈轨道 ---------- */
-                        el('circle', {
-                            cx: CX, cy: CY, r: R, fill: 'none',
-                            stroke: '#0e1c2d', 'stroke-width': 16
-                        });
-                        el('circle', {
-                            cx: CX, cy: CY, r: R, fill: 'none',
-                            stroke: '#1a3350', 'stroke-width': 5
-                        });
-
-                        /* ---------- 粒子层（置于 GPU 之下） ---------- */
-                        var pktLayer = el('g', {});
-
-                        /* ---------- GPU 节点 ---------- */
-                        var gpus = [];
-                        for (var g = 0; g < N; g++) {
-                            var p = P[g];
-                            var nb = isB(g);
-                            var accent = nb ? '#b48cff' : '#69a9ff';
-                            var base = nb ? '#3a3160' : '#2b4363';
-
-                            var halo = el('circle', {
-                                cx: p.x, cy: p.y, r: NODE_R + 2,
-                                fill: 'none', stroke: accent,
-                                'stroke-width': 1.6, opacity: 0
-                            });
-
-                            el('circle', {cx: p.x, cy: p.y, r: NODE_R, fill: '#0a1626'});
-
-                            var ring = el('circle', {
-                                cx: p.x, cy: p.y, r: NODE_R,
-                                fill: 'none', stroke: base, 'stroke-width': 2.5
-                            });
-
-                            var txt = el('text', {
-                                x: p.x, y: p.y + FS(4),
-                                'text-anchor': 'middle',
-                                fill: '#dbe9fb',
-                                'font-size': FS(11),
-                                'font-weight': 800
-                            });
-                            txt.textContent = 'G' + g;
-
-                            gpus.push({halo: halo, ring: ring, accent: accent, base: base});
-                        }
-
-                        /* ---------- 中心 hub ---------- */
-                        el('circle', {
-                            cx: CX, cy: CY, r: HUB_R,
-                            fill: '#0b1727', stroke: '#22364f', 'stroke-width': 1.5
-                        });
-
-                        el('circle', {
-                            cx: CX, cy: CY, r: PROG_R,
-                            fill: 'none', stroke: '#16283d', 'stroke-width': 4
-                        });
-                        var progArc = el('circle', {
-                            cx: CX, cy: CY, r: PROG_R,
-                            fill: 'none', stroke: '#61e0d0', 'stroke-width': 4,
-                            'stroke-linecap': 'round',
-                            'stroke-dasharray': PROG_C,
-                            'stroke-dashoffset': PROG_C,
-                            transform: 'rotate(-90 ' + CX + ' ' + CY + ')'
-                        });
-
-                        var phaseTitle = el('text', {
-                            x: CX, y: CY - 10,
-                            'text-anchor': 'middle',
-                            fill: '#edf4ff',
-                            'font-size': FS(13),
-                            'font-weight': 800,
-                            'letter-spacing': '.8'
-                        });
-                        var phaseSub = el('text', {
-                            x: CX, y: CY + 12,
-                            'text-anchor': 'middle',
-                            fill: '#93a8c4',
-                            'font-size': FS(10)
-                        });
-                        var phaseSub2 = el('text', {
-                            x: CX, y: CY + 30,
-                            'text-anchor': 'middle',
-                            fill: '#5f7a99',
-                            'font-size': FS(9),
-                            'letter-spacing': '.6'
-                        });
-
-                        /* ==========================================================
-                           粒子
-                           ========================================================== */
-                        var C_KV = '#61e0d0';
-                        var C_CQ = '#ffb454';
-                        var C_Q = '#69a9ff';
-                        var C_OUT = '#a4edc0';
-
-                        function mkDot(color, r) {
-                            return el('circle', {
-                                cx: 0, cy: 0, r: r, fill: color, opacity: 0
-                            }, pktLayer);
-                        }
-
-                        /* 跨节点列粒子：每个 GPU 两条通道（KV + 列 Q） */
-                        var colDots = [];
-                        for (var c = 0; c < N; c++) {
-                            colDots.push({
-                                from: c, to: counterpart(c),
-                                phase: (c * 0.13) % 1,
-                                color: C_KV,
-                                el: mkDot(C_KV, IS_SMALL ? 4.2 : 3.6)
-                            });
-                            colDots.push({
-                                from: c, to: counterpart(c),
-                                phase: (c * 0.13 + 0.5) % 1,
-                                color: C_CQ,
-                                el: mkDot(C_CQ, IS_SMALL ? 4.2 : 3.6)
-                            });
-                        }
-
-                        /* 节点内错位分组弧线粒子 */
-                        var arcDots = [];
-                        for (var d = 0; d < N; d++) {
-                            var b0 = nodeBase(d);
-                            var k0 = d - b0;
-                            var tgt = b0 + ((k0 + 3) % 8);
-                            arcDots.push({
-                                from: d, to: tgt,
-                                phase: (d * 0.21) % 1,
-                                el: mkDot(C_Q, IS_SMALL ? 3.8 : 3.2)
-                            });
-                        }
-
-                        /* ==========================================================
-                           时间轴
-                           ========================================================== */
-                        var T_LOCAL = 900;
-                        var T_COL = 2400;
-                        var T_RED = 1100;
-                        var T_TOT = T_LOCAL + T_COL + T_RED;
-
-                        var PHASES = [
-                            {title: 'LOCAL', sub: 'diagonal Q·Kᵀ', sub2: 'online softmax', color: '#61e0d0'},
-                            {title: 'COLUMN', sub: 'cross-node exchange', sub2: 'KV + column-Q rotate', color: '#69a9ff'},
-                            {title: 'REDUCE', sub: 'output + norm', sub2: 'column all-reduce', color: '#a4edc0'}
-                        ];
-
-                        var t0 = 0;
-
-                        function lerpPt(A, B, u) {
-                            return {
-                                x: A.x + (B.x - A.x) * u,
-                                y: A.y + (B.y - A.y) * u
-                            };
-                        }
-
-                        function tick(now) {
-                            requestAnimationFrame(tick);
-                            if (!t0) t0 = now;
-
-                            var tc = (now - t0) % T_TOT;
-
-                            var phase, pk;
-                            if (tc < T_LOCAL) {
-                                phase = 0; pk = tc / T_LOCAL;
-                            } else if (tc < T_LOCAL + T_COL) {
-                                phase = 1; pk = (tc - T_LOCAL) / T_COL;
-                            } else {
-                                phase = 2; pk = (tc - T_LOCAL - T_COL) / T_RED;
-                            }
-
-                            /* ---- 进度环 ---- */
-                            progArc.setAttribute(
-                                'stroke-dashoffset',
-                                (PROG_C * (1 - tc / T_TOT)).toFixed(2)
-                            );
-
-                            /* ---- 中心文案 ---- */
-                            var ph = PHASES[phase];
-                            if (phaseTitle.textContent !== ph.title) {
-                                phaseTitle.textContent = ph.title;
-                                phaseSub.textContent = ph.sub;
-                                phaseSub2.textContent = ph.sub2;
-                            }
-                            phaseTitle.setAttribute('fill', ph.color);
-                            progArc.setAttribute('stroke', ph.color);
-
-                            /* ---- GPU 状态 ---- */
-                            for (var i = 0; i < N; i++) {
-                                var gp = gpus[i];
-
-                                if (phase === 0) {
-                                    var pl = 0.5 + 0.5 * Math.sin(now / 180 + i * 0.4);
-                                    gp.ring.setAttribute('stroke', '#61e0d0');
-                                    gp.ring.setAttribute('stroke-width', (2.4 + 1.4 * pl).toFixed(2));
-                                    gp.ring.setAttribute('opacity', 1);
-                                    gp.halo.setAttribute('stroke', '#61e0d0');
-                                    gp.halo.setAttribute('r', (NODE_R + 3 + pk * 16).toFixed(1));
-                                    gp.halo.setAttribute('opacity', ((1 - pk) * 0.55).toFixed(3));
-
-                                } else if (phase === 1) {
-                                    var pl2 = 0.5 + 0.5 * Math.sin(now / 260 + i * 0.8);
-                                    gp.ring.setAttribute('stroke', gp.accent);
-                                    gp.ring.setAttribute('stroke-width', (2.3 + 1.0 * pl2).toFixed(2));
-                                    gp.ring.setAttribute('opacity', (0.55 + 0.45 * pl2).toFixed(2));
-                                    gp.halo.setAttribute('stroke', gp.accent);
-                                    gp.halo.setAttribute('r', NODE_R + 4);
-                                    gp.halo.setAttribute('opacity', (0.16 * pl2).toFixed(3));
-
-                                } else {
-                                    var lk = (now / 720 + i * 0.13) % 1;
-                                    gp.ring.setAttribute('stroke', '#a4edc0');
-                                    gp.ring.setAttribute('stroke-width', 2.8);
-                                    gp.ring.setAttribute('opacity', 1);
-                                    gp.halo.setAttribute('stroke', '#a4edc0');
-                                    gp.halo.setAttribute('r', (NODE_R + 4 + lk * 14).toFixed(1));
-                                    gp.halo.setAttribute('opacity', ((1 - lk) * 0.5).toFixed(3));
-                                }
-                            }
-
-                            /* ---- 跨节点列粒子 ---- */
-                            var RAD_PERIOD = 2000;
-                            for (var j = 0; j < colDots.length; j++) {
-                                var cd = colDots[j];
-                                var A = P[cd.from];
-                                var B = P[cd.to];
-
-                                if (phase === 1) {
-                                    var u = (((now - t0) / RAD_PERIOD) + cd.phase) % 1;
-                                    var pt = lerpPt(A, B, u);
-                                    cd.el.setAttribute('cx', pt.x.toFixed(1));
-                                    cd.el.setAttribute('cy', pt.y.toFixed(1));
-                                    cd.el.setAttribute('opacity', 1);
-
-                                } else if (phase === 2) {
-                                    var u2 = (((now - t0) / (RAD_PERIOD * 0.62)) + cd.phase) % 1;
-                                    var pt2 = lerpPt({x: CX, y: CY}, A, u2);
-                                    cd.el.setAttribute('cx', pt2.x.toFixed(1));
-                                    cd.el.setAttribute('cy', pt2.y.toFixed(1));
-                                    cd.el.setAttribute('fill', C_OUT);
-                                    cd.el.setAttribute('opacity', (0.35 + 0.65 * u2).toFixed(2));
-
-                                } else {
-                                    cd.el.setAttribute('opacity', 0);
-                                    cd.el.setAttribute('fill', cd.color);
-                                }
-                            }
-
-                            /* ---- 节点内错位弧线粒子 ---- */
-                            var ARC_PERIOD = 1700;
-                            for (var k = 0; k < arcDots.length; k++) {
-                                var ad = arcDots[k];
-
-                                if (phase !== 1) {
-                                    ad.el.setAttribute('opacity', 0);
-                                    continue;
-                                }
-
-                                var ua = (((now - t0) / ARC_PERIOD) + ad.phase) % 1;
-                                var a0 = P[ad.from].a;
-                                var a1 = P[ad.to].a;
-                                var diff = a1 - a0;
-                                while (diff > Math.PI) diff -= 2 * Math.PI;
-                                while (diff < -Math.PI) diff += 2 * Math.PI;
-
-                                var ang = a0 + diff * ua;
-                                ad.el.setAttribute('cx', (CX + R * Math.cos(ang)).toFixed(1));
-                                ad.el.setAttribute('cy', (CY + R * Math.sin(ang)).toFixed(1));
-                                ad.el.setAttribute('opacity', 0.9);
-                            }
-                        }
-
-                        requestAnimationFrame(tick);
-                    })();
-                </script>
-
-                <div class="cards3">
-                    <article class="card">
-                        <h3><span class="dot"></span>Sequential dependency</h3>
-                        <p>Ring rounds depend on previously delivered KV blocks, creating a chain of rank-to-rank
-                            transfers.</p>
-                    </article>
-                    <article class="card">
-                        <h3><span class="dot"></span>Exposed communication</h3>
-                        <p>Early arrivals may wait for slower transfers before dependent work can proceed.</p>
-                    </article>
-                    <article class="card">
-                        <h3><span class="dot"></span>Uneven link bandwidth</h3>
-                        <p>Cross-node links can dominate the time to complete each ring round.</p>
-                    </article>
-                </div>
-
-                <!-- NEW: CHARM+ animation directly below Ring Attention -->
-                <div class="sec-head charm-compare-head">
-                    <div class="tag">CHARM+ / TWO-DIMENSIONAL COMMUNICATION</div>
-                    <h2>CHARM+: Hierarchical rotation + column exchange</h2>
-                    <p>Unlike a fixed neighbor-to-neighbor ring, this conceptual view combines skewed intra-node
-                        rotation, inter-node same-column exchange, and asynchronous attention/re-merge pipelines.</p>
-                </div>
-
-                <div class="stage charm-stage">
-                    <div class="charm-toolbar">
-                        <span class="charm-live-dot"></span>
-                        <span id="charmPhaseName">PHASE 1 · INTRA-NODE ROTATION</span>
-                        <span class="charm-round" id="charmRound">ROUND 1 / 7</span>
-                    </div>
-
-                    <svg id="charmSvg" viewBox="0 0 900 490" preserveAspectRatio="xMidYMid meet" role="img"
-                        aria-label="Two nodes with eight GPUs each, illustrating intra-node rotation, inter-node column exchange, and attention result merging.">
-                        <defs>
-                            <marker id="charmArrowBlue" markerWidth="7" markerHeight="7" refX="5" refY="3"
-                                orient="auto">
-                                <path d="M0,0 L6,3 L0,6 Z" fill="#69a9ff" />
-                            </marker>
-                            <marker id="charmArrowAmber" markerWidth="7" markerHeight="7" refX="5" refY="3"
-                                orient="auto">
-                                <path d="M0,0 L6,3 L0,6 Z" fill="#ffb454" />
-                            </marker>
-                            <marker id="charmArrowCyan" markerWidth="7" markerHeight="7" refX="5" refY="3"
-                                orient="auto">
-                                <path d="M0,0 L6,3 L0,6 Z" fill="#61e0d0" />
-                            </marker>
-                        </defs>
-
-                        <rect x="22" y="55" width="382" height="300" rx="18" fill="#102139" stroke="#315477" />
-                        <rect x="496" y="55" width="382" height="300" rx="18" fill="#102139" stroke="#315477" />
-                        <text x="213" y="82" text-anchor="middle" fill="#8fc1ff" font-size="14" font-weight="800">NODE A
-                            · GPU 0–7</text>
-                        <text x="687" y="82" text-anchor="middle" fill="#8fc1ff" font-size="14" font-weight="800">NODE B
-                            · GPU 8–15</text>
-
-                        <rect x="407" y="92" width="86" height="254" rx="12" fill="#261d13" stroke="#6b4d20"
-                            stroke-dasharray="4 5" />
-                        <text x="450" y="111" text-anchor="middle" fill="#ffb454" font-size="9"
-                            font-weight="800">CROSS</text>
-                        <text x="450" y="123" text-anchor="middle" fill="#ffb454" font-size="9"
-                            font-weight="800">NODE</text>
-
-                        <g id="charmLocalLinks" fill="none" stroke="#31577c" stroke-width="2.5"
-                            marker-end="url(#charmArrowBlue)"></g>
-                        <g id="charmLocalLinksB" fill="none" stroke="#31577c" stroke-width="2.5"
-                            marker-end="url(#charmArrowBlue)"></g>
-                        <g id="charmColumnLinks" fill="none" stroke="#6b4d20" stroke-width="2.2" stroke-dasharray="6 7"
-                            marker-end="url(#charmArrowAmber)"></g>
-                        <g id="charmSkewLinks" fill="none" stroke="#315f5a" stroke-width="2" stroke-dasharray="3 6"
-                            marker-end="url(#charmArrowCyan)"></g>
-                        <g id="charmGPUs"></g>
-                        <g id="charmPackets"></g>
-
-                        <path d="M70 391 H830" stroke="#29435f" stroke-width="1.5" />
-                        <text x="450" y="382" text-anchor="middle" fill="#8ba6c5" font-size="10"
-                            letter-spacing="1.1">ASYNCHRONOUS COMPUTE / COMMUNICATION PIPELINE</text>
-
-                        <g id="charmPipe">
-                            <rect x="34" y="405" width="154" height="47" rx="10" fill="#132a43" stroke="#31577c" />
-                            <text x="111" y="424" text-anchor="middle" fill="#69a9ff" font-size="11" font-weight="800">Q
-                                / KV TRANSFER</text>
-                            <text x="111" y="439" text-anchor="middle" fill="#8fa6c2" font-size="9">Async send /
-                                receive</text>
-
-                            <rect x="205" y="405" width="154" height="47" rx="10" fill="#132a43" stroke="#31577c" />
-                            <text x="282" y="424" text-anchor="middle" fill="#a4edc0" font-size="11"
-                                font-weight="800">ATTENTION</text>
-                            <text x="282" y="439" text-anchor="middle" fill="#8fa6c2" font-size="9">Diagonal +
-                                off-diagonal</text>
-
-                            <rect x="376" y="405" width="154" height="47" rx="10" fill="#132a43" stroke="#31577c" />
-                            <text x="453" y="424" text-anchor="middle" fill="#61e0d0" font-size="11"
-                                font-weight="800">ONLINE MERGE</text>
-                            <text x="453" y="439" text-anchor="middle" fill="#8fa6c2" font-size="9">Output O +
-                                LSE</text>
-
-                            <rect x="547" y="405" width="154" height="47" rx="10" fill="#132a43" stroke="#31577c" />
-                            <text x="624" y="424" text-anchor="middle" fill="#ffb454" font-size="11"
-                                font-weight="800">COLUMN REDUCE</text>
-                            <text x="624" y="439" text-anchor="middle" fill="#8fa6c2" font-size="9">Partial O /
-                                LSE</text>
-
-                            <rect x="718" y="405" width="148" height="47" rx="10" fill="#132a43" stroke="#31577c" />
-                            <text x="792" y="424" text-anchor="middle" fill="#61e0d0" font-size="11"
-                                font-weight="800">RE-MERGE</text>
-                            <text x="792" y="439" text-anchor="middle" fill="#8fa6c2" font-size="9">Tail-ring
-                                results</text>
-                        </g>
-                        <text id="charmStatus" x="450" y="474" text-anchor="middle" fill="#b6c7dc" font-size="11">Local
-                            diagonal attention · skewed group rotation</text>
-                    </svg>
-
-                    <div class="legend">
-                        <span><i style="background:#69a9ff"></i>Intra-node rotation</span>
-                        <span><i style="background:#ffb454"></i>Inter-node column exchange</span>
-                        <span><i style="background:#61e0d0"></i>Skewed / re-merge path</span>
-                        <span><i style="background:#a4edc0"></i>Attention computation</span>
-                    </div>
-                    <div class="charm-controls">
-                        <button id="charmPlay" type="button">Pause animation</button>
-                        <button id="charmNext" type="button">Next phase →</button>
-                        <button id="charmRestart" type="button">Restart</button>
-                    </div>
-                    <p class="note">Conceptual topology and phase-level animation. The paths illustrate communication
-                        classes, not an exact rank schedule or CUDA/NCCL trace.</p>
-                </div>
-
                 <div class="cards3">
                     <article class="card">
                         <h3><span class="dot"></span>Hierarchical communication</h3>
-                        <p>Intra-node skewed rotation and inter-node column exchange replace a single fixed neighbor
-                            ring.</p>
+                        <p>Intra-node staggered three-phase KV/Q rotation and bidirectional asynchronous cross-node
+                            diameter Q exchange replace a single fixed neighbor ring.</p>
                     </article>
                     <article class="card">
                         <h3><span class="dot"></span>Multistream overlap</h3>
-                        <p>Q/KV movement overlaps attention computation; partial outputs and normalization statistics
-                            are merged online.</p>
+                        <p>Cross-node Q is decoupled from intra-node work, so local KV/Q transfers are never blocked by
+                            slower cross-node traffic.</p>
                     </article>
                     <article class="card">
-                        <h3><span class="dot"></span>Tail-ring re-merge</h3>
-                        <p>Remaining blocks are processed and combined with asynchronously returned block and
-                            column-reduction results.</p>
+                        <h3><span class="dot"></span>Second pass + return</h3>
+                        <p>After cross-node Q arrives and the first three phases finish, the same pattern runs with
+                            cross-node Q in the Q slots, then results are returned in a final bidirectional pass.</p>
                     </article>
                 </div>
             </div>
@@ -1341,6 +937,72 @@
                     <p>Shorten communication dependency chains, overlap independent work, and isolate slow cross-node
                         traffic.</p>
                 </div>
+
+                <div class="sec-head" style="margin:34px 0 16px">
+                    <div class="tag">02a / CHARM+ communication schedule</div>
+                    <h3 style="margin:6px 0 8px;font-size:19px;letter-spacing:-.02em">Three-phase intra-node KV/Q
+                        transfer · bidirectional asynchronous cross-node Q</h3>
+                    <p style="color:var(--muted);font-size:14px;margin:0">
+                        Same 16 GPUs on the same circle. Cross-node Q moves asynchronously and
+                        <strong style="color:#cfe3ff">bidirectionally</strong> between diameter counterparts
+                        <strong style="color:#cfe3ff">(0↔8, 1↔9, …)</strong>: each side sends its own Q while receiving
+                        the partner's Q, without blocking intra-node transfers.
+                        Intra-node KV/Q transfers run in three phases:
+                        phase 1 pairs <strong style="color:#cfe3ff">i↔i^1</strong>, phase 2 works inside each 4-GPU
+                        group, phase 3 crosses the two 4-GPU groups.
+                        KV is one-way; Q is round-trip. Intra-node transfers are drawn as arcs outside the circle and
+                        disappear when the transfer ends. After the first round and cross-node Q complete, a second
+                        three-phase round runs with cross-node-received Q in the Q slots; after that, one more
+                        bidirectional cross-node Q pass returns the results.
+                    </p>
+                </div>
+
+                <div class="stage charm-stage" style="margin-top:14px">
+                    <div class="charm-toolbar">
+                        <span class="charm-live-dot"></span>
+                        <span id="charmPhaseName">Round 1 · Phase 1: Pairwise KV Exchange</span>
+                        <span class="charm-round" id="charmRound">ROUND 1 / 2</span>
+                    </div>
+
+                    <svg id="charmSvg" viewBox="130 12 640 656" preserveAspectRatio="xMidYMid meet" role="img"
+                        aria-label="Two nodes with eight GPUs each on a circle. Bidirectional cross-node Q uses solid diameter links that pass behind the central panel and fade out after transfer. Intra-node three-phase KV/Q transfers use outer arcs that disappear after the transfer."></svg>
+
+                    <div class="legend">
+                        <span><i style="background:#69a9ff"></i>KV communication</span>
+                        <span><i style="background:#ffb454"></i>Q communication</span>
+                        <span><i style="background:#b48cff"></i>Cross Q communication</span>
+                        <span><i style="background:#61e0d0"></i>Finished</span>
+                    </div>
+
+                    <div class="charm-controls">
+                        <button id="charmPlay" type="button">Pause animation</button>
+                        <button id="charmPrev" type="button">← Previous phase</button>
+                        <button id="charmNext" type="button">Next phase →</button>
+                        <button id="charmRestart" type="button">Restart</button>
+                        <span class="speed-group" role="group" aria-label="Animation speed">
+                            <button class="speed-btn" data-speed="1" type="button">2×</button>
+                            <button class="speed-btn active" data-speed="0.5" type="button">1×</button>
+                            <button class="speed-btn" data-speed="0.25" type="button">0.5×</button>
+                        </span>
+                    </div>
+
+                    <p class="note">
+                        Intra-node communication uses four fixed concentric visual lanes: the two inner lanes are
+                        reserved for KV, and the two outer lanes for Q (cross-node Q received in Round 2). Concurrent
+                        transfers of the same type use separate sub-lanes, so KV and Q do not appear to share a path.
+                        Each arc appears only while its transfer is active, then fades out. Cross-node Q uses solid
+                        links and travels in both directions simultaneously. Links are hidden behind the central panel
+                        and disappear with their particles when the transfer completes.
+                        Cross-node Q overlaps with intra-node communication and does not block the three intra-node
+                        phases.
+                        After all three phases in Round 1 and the cross-node Q transfers complete, Round 2 runs the same
+                        three-phase pattern. KV remains one-way, while the Q slots carry cross-node-received Q (purple,
+                        round-trip).
+                        After Round 2, one final bidirectional cross-node Q pass returns the results to the partner
+                        GPUs.
+                    </p>
+                </div>
+
                 <div class="methods">
                     <article class="method">
                         <div class="viz">
@@ -1384,8 +1046,6 @@
                 <div class="sec-head">
                     <div class="tag">03 / Results</div>
                     <h2>Reported speedups</h2>
-                    <p>Values below are manuscript-reported figures; validate them against the final paper before
-                        external publication.</p>
                 </div>
                 <div class="bigstats">
                     <div class="stat">
@@ -1472,12 +1132,26 @@
     </main>
 
     <footer>
-        <div class="wrap"><strong>CHARM+ · Interactive Paper Explorer</strong><br>Local prototype for algorithm
-            visualization. Confirm the communication topology and reported metrics against the actual implementation and
-            manuscript.</div>
+        <div class="wrap footer-inner">
+            <div class="partner">
+                <a class="partner-link" href="https://www.lenovo.com" target="_blank" rel="noopener noreferrer"
+                    aria-label="Visit Lenovo website">
+                    <img class="partner-logo" src="assets/lenovo.png" alt="Lenovo" width="108" height="36">
+                </a>
+            </div>
+            <a class="contact-btn" href="mailto:zbn2xx@gmail.com">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="14" rx="2.5"></rect>
+                    <path d="m3.5 7 8.5 6 8.5-6"></path>
+                </svg>
+                Contact us
+            </a>
+        </div>
     </footer>
 
     <script>
+        /* ---------- Figure 1: ring bottleneck ---------- */
         (function () {
             'use strict';
             var NS = 'http://www.w3.org/2000/svg';
@@ -1489,14 +1163,14 @@
             var SPAN = 2 * Math.PI / GPU_COUNT, DEG = Math.PI / 180;
             var IS_SMALL = window.innerWidth <= 640;
             var NODE_R = IS_SMALL ? 27 : 22;
-            function FS(n) {return IS_SMALL ? Math.round(n * 1.45 * 10) / 10 : n;}
+            function FS(n) { return IS_SMALL ? Math.round(n * 1.45 * 10) / 10 : n; }
             var CROSS_SPEED = 5, LOCAL_SPEED_MIN = 10, LOCAL_SPEED_MAX = 30, CROSS_DUR = 3, GAP = .4;
             var BORN_FADE_MS = 170, LABEL_ANIM_MS = 480;
-            function randomLocalSpeed() {return LOCAL_SPEED_MIN + Math.random() * (LOCAL_SPEED_MAX - LOCAL_SPEED_MIN);}
-            function durationFromSpeed(speed) {return CROSS_DUR * CROSS_SPEED / speed;}
+            function randomLocalSpeed() { return LOCAL_SPEED_MIN + Math.random() * (LOCAL_SPEED_MAX - LOCAL_SPEED_MIN); }
+            function durationFromSpeed(speed) { return CROSS_DUR * CROSS_SPEED / speed; }
             function el(tag, attrs, parent) {
                 var e = document.createElementNS(NS, tag);
-                Object.keys(attrs || {}).forEach(function (k) {e.setAttribute(k, attrs[k]);});
+                Object.keys(attrs || {}).forEach(function (k) { e.setAttribute(k, attrs[k]); });
                 (parent || svg).appendChild(e); return e;
             }
             function arcD(a0, a1, r) {
@@ -1514,51 +1188,51 @@
             var G = [];
             for (var i = 0; i < GPU_COUNT; i++) {
                 var a = -Math.PI / 2 + i * SPAN;
-                G.push({x: CX + R * Math.cos(a), y: CY + R * Math.sin(a), a: a});
+                G.push({ x: CX + R * Math.cos(a), y: CY + R * Math.sin(a), a: a });
             }
-            el('path', {d: bandD(-100 * DEG, 77.5 * DEG, R - 52, R + 52), fill: 'rgba(105,169,255,.055)', stroke: 'rgba(105,169,255,.20)'});
-            el('path', {d: bandD(80 * DEG, 257.5 * DEG, R - 52, R + 52), fill: 'rgba(105,169,255,.055)', stroke: 'rgba(105,169,255,.20)'});
-            var tA = el('text', {x: 480, y: IS_SMALL ? 30 : 40, 'text-anchor': 'middle', fill: '#7fb6ff', 'font-size': FS(10.5), 'font-weight': 700});
+            el('path', { d: bandD(-100 * DEG, 77.5 * DEG, R - 52, R + 52), fill: 'rgba(105,169,255,.055)', stroke: 'rgba(105,169,255,.20)' });
+            el('path', { d: bandD(80 * DEG, 257.5 * DEG, R - 52, R + 52), fill: 'rgba(105,169,255,.055)', stroke: 'rgba(105,169,255,.20)' });
+            var tA = el('text', { x: 480, y: IS_SMALL ? 30 : 40, 'text-anchor': 'middle', fill: '#7fb6ff', 'font-size': FS(10.5), 'font-weight': 700 });
             tA.textContent = 'NODE A · G0–G7';
-            el('circle', {cx: IS_SMALL ? 400 : 420, cy: IS_SMALL ? 26 : 36, r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff'});
-            var tB = el('text', {x: 440, y: IS_SMALL ? 662 : 652, 'text-anchor': 'middle', fill: '#7fb6ff', 'font-size': FS(10.5), 'font-weight': 700});
+            el('circle', { cx: IS_SMALL ? 432 : 420, cy: IS_SMALL ? 26 : 36, r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff' });
+            var tB = el('text', { x: 440, y: IS_SMALL ? 662 : 652, 'text-anchor': 'middle', fill: '#7fb6ff', 'font-size': FS(10.5), 'font-weight': 700 });
             tB.textContent = 'NODE B · G8–G15';
-            el('circle', {cx: IS_SMALL ? 360 : 380, cy: IS_SMALL ? 658 : 648, r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff'});
+            el('circle', { cx: IS_SMALL ? 432 : 380, cy: IS_SMALL ? 658 : 648, r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff' });
             var links = [];
             for (i = 0; i < GPU_COUNT; i++) {
                 var cross = i === 7 || i === 15, speed = cross ? CROSS_SPEED : randomLocalSpeed();
-                links.push({a0: -Math.PI / 2 + i * SPAN, a1: -Math.PI / 2 + (i + 1) * SPAN, cross: cross, speed: speed, dur: durationFromSpeed(speed)});
+                links.push({ a0: -Math.PI / 2 + i * SPAN, a1: -Math.PI / 2 + (i + 1) * SPAN, cross: cross, speed: speed, dur: durationFromSpeed(speed) });
             }
             links.forEach(function (l) {
                 var d = arcD(l.a0, l.a1, R);
-                el('path', {d: d, fill: 'none', stroke: l.cross ? '#3a2a12' : '#132539', 'stroke-width': 20, 'stroke-linecap': 'round'});
-                el('path', {d: d, fill: 'none', stroke: l.cross ? '#5a3f1a' : '#1c3550', 'stroke-width': 12, 'stroke-linecap': 'round'});
-                var flow = el('path', {d: d, fill: 'none', stroke: l.cross ? '#ff5f54' : '#4da3ff', 'stroke-width': 3, 'stroke-dasharray': '14 34', opacity: .9, 'stroke-linecap': 'round'});
+                el('path', { d: d, fill: 'none', stroke: l.cross ? '#3a2a12' : '#132539', 'stroke-width': 20, 'stroke-linecap': 'round' });
+                el('path', { d: d, fill: 'none', stroke: l.cross ? '#5a3f1a' : '#1c3550', 'stroke-width': 12, 'stroke-linecap': 'round' });
+                var flow = el('path', { d: d, fill: 'none', stroke: l.cross ? '#ff5f54' : '#4da3ff', 'stroke-width': 3, 'stroke-dasharray': '14 34', opacity: .9, 'stroke-linecap': 'round' });
                 flow.style.animation = 'dashflow ' + (l.cross ? .7 : .2) + 's linear infinite';
             });
             var gpus = G.map(function (g, i) {
-                var halo = el('circle', {cx: g.x, cy: g.y, r: NODE_R + 2, fill: 'none', stroke: '#61e0d0', 'stroke-width': 1.6, opacity: 0});
-                el('circle', {cx: g.x, cy: g.y, r: NODE_R, fill: '#0a1626'});
-                var ring = el('circle', {cx: g.x, cy: g.y, r: NODE_R, fill: 'none', stroke: '#2b4363', 'stroke-width': 2.5});
-                var txt = el('text', {x: g.x, y: g.y + FS(4), 'text-anchor': 'middle', fill: '#dbe9fb', 'font-size': FS(11), 'font-weight': 800});
-                txt.textContent = 'G' + i; return {ring: ring, halo: halo};
+                var halo = el('circle', { cx: g.x, cy: g.y, r: NODE_R + 2, fill: 'none', stroke: '#61e0d0', 'stroke-width': 1.6, opacity: 0 });
+                el('circle', { cx: g.x, cy: g.y, r: NODE_R, fill: '#0a1626' });
+                var ring = el('circle', { cx: g.x, cy: g.y, r: NODE_R, fill: 'none', stroke: '#2b4363', 'stroke-width': 2.5 });
+                var txt = el('text', { x: g.x, y: g.y + FS(4), 'text-anchor': 'middle', fill: '#dbe9fb', 'font-size': FS(11), 'font-weight': 800 });
+                txt.textContent = 'G' + i; return { ring: ring, halo: halo };
             });
             var PROG_R = 148, PROG_C = 2 * Math.PI * PROG_R;
-            el('circle', {cx: CX, cy: CY, r: PROG_R, fill: 'none', stroke: '#16283d', 'stroke-width': 5});
-            var progArc = el('circle', {cx: CX, cy: CY, r: PROG_R, fill: 'none', stroke: '#61e0d0', 'stroke-width': 5, 'stroke-linecap': 'round', 'stroke-dasharray': PROG_C, 'stroke-dashoffset': PROG_C, transform: 'rotate(-90 ' + CX + ' ' + CY + ')'});
-            var roundLabel = el('text', {x: CX, y: CY - FS(20), 'text-anchor': 'middle', fill: '#dbe9fb', 'font-size': FS(20), 'font-weight': 800, 'letter-spacing': 2});
-            var statusLabel = el('text', {x: CX, y: CY + FS(6), 'text-anchor': 'middle', fill: '#8fa6c2', 'font-size': FS(12)});
-            var barrierLabel = el('text', {x: CX, y: CY + FS(28), 'text-anchor': 'middle', fill: '#5f7a99', 'font-size': FS(11), 'letter-spacing': '.7'});
+            el('circle', { cx: CX, cy: CY, r: PROG_R, fill: 'none', stroke: '#16283d', 'stroke-width': 5 });
+            var progArc = el('circle', { cx: CX, cy: CY, r: PROG_R, fill: 'none', stroke: '#61e0d0', 'stroke-width': 5, 'stroke-linecap': 'round', 'stroke-dasharray': PROG_C, 'stroke-dashoffset': PROG_C, transform: 'rotate(-90 ' + CX + ' ' + CY + ')' });
+            var roundLabel = el('text', { x: CX, y: CY - FS(20), 'text-anchor': 'middle', fill: '#dbe9fb', 'font-size': FS(20), 'font-weight': 800, 'letter-spacing': 2 });
+            var statusLabel = el('text', { x: CX, y: CY + FS(6), 'text-anchor': 'middle', fill: '#8fa6c2', 'font-size': FS(12) });
+            var barrierLabel = el('text', { x: CX, y: CY + FS(28), 'text-anchor': 'middle', fill: '#5f7a99', 'font-size': FS(11), 'letter-spacing': '.7' });
             var packets = [], phase = 'move', gapLeft = 0, round = 0, last = 0, labelAnimStart = 0;
             function spawnRound() {
-                packets.forEach(function (p) {p.grp.remove();});
-                links.forEach(function (l) {if (!l.cross) {l.speed = randomLocalSpeed(); l.dur = durationFromSpeed(l.speed);} else {l.speed = CROSS_SPEED; l.dur = CROSS_DUR;} });
+                packets.forEach(function (p) { p.grp.remove(); });
+                links.forEach(function (l) { if (!l.cross) { l.speed = randomLocalSpeed(); l.dur = durationFromSpeed(l.speed); } else { l.speed = CROSS_SPEED; l.dur = CROSS_DUR; } });
                 var born = performance.now();
                 packets = links.map(function (l, idx) {
                     var grp = el('g', {});
-                    var halo = el('circle', {r: 9, fill: l.cross ? '#ffb454' : '#61e0d0', opacity: .2}, grp);
-                    el('circle', {r: 4.2, fill: l.cross ? '#ffe3b3' : '#d8fffa'}, grp);
-                    return {idx: idx, t: 0, grp: grp, halo: halo, arrivedAt: -1, bornAt: born};
+                    var halo = el('circle', { r: 9, fill: l.cross ? '#ffb454' : '#61e0d0', opacity: .2 }, grp);
+                    el('circle', { r: 4.2, fill: l.cross ? '#ffe3b3' : '#d8fffa' }, grp);
+                    return { idx: idx, t: 0, grp: grp, halo: halo, arrivedAt: -1, bornAt: born };
                 });
                 round = (round % 15) + 1;
                 roundLabel.textContent = 'ROUND ' + round + ' / 15';
@@ -1567,37 +1241,37 @@
             function positionOf(p) {
                 var l = links[p.idx], pad = (NODE_R + 4) / (R * SPAN);
                 var frac = pad + (1 - 2 * pad) * p.t, a = l.a0 + frac * SPAN;
-                return {x: CX + R * Math.cos(a), y: CY + R * Math.sin(a)};
+                return { x: CX + R * Math.cos(a), y: CY + R * Math.sin(a) };
             }
             function draw(doneCount) {
                 var now = performance.now(), allDone = doneCount === GPU_COUNT;
                 var gapFrac = phase === 'gap' ? Math.max(0, Math.min(1, gapLeft / GAP)) : 1;
                 packets.forEach(function (p) {
                     var pos = positionOf(p), vis, sc;
-                    if (phase === 'gap') {var e = gapFrac * gapFrac * (3 - 2 * gapFrac); vis = e; sc = .2 + .8 * e;}
-                    else {var k = Math.min(1, (now - p.bornAt) / BORN_FADE_MS); vis = k; sc = .45 + .55 * k;}
+                    if (phase === 'gap') { var e = gapFrac * gapFrac * (3 - 2 * gapFrac); vis = e; sc = .2 + .8 * e; }
+                    else { var k = Math.min(1, (now - p.bornAt) / BORN_FADE_MS); vis = k; sc = .45 + .55 * k; }
                     p.grp.setAttribute('opacity', vis.toFixed(3));
                     p.grp.setAttribute('transform', 'translate(' + pos.x.toFixed(1) + ',' + pos.y.toFixed(1) + ') scale(' + sc.toFixed(3) + ')');
-                    if (p.t >= 1) {var pulse = .5 + .5 * Math.sin(now / 190); p.halo.setAttribute('r', 9 + 4 * pulse); p.halo.setAttribute('opacity', .1 + .24 * pulse);}
-                    else {p.halo.setAttribute('r', 9); p.halo.setAttribute('opacity', .2);}
+                    if (p.t >= 1) { var pulse = .5 + .5 * Math.sin(now / 190); p.halo.setAttribute('r', 9 + 4 * pulse); p.halo.setAttribute('opacity', .1 + .24 * pulse); }
+                    else { p.halo.setAttribute('r', 9); p.halo.setAttribute('opacity', .2); }
                 });
                 for (var g = 0; g < GPU_COUNT; g++) {
                     var inPkt = packets[(g + GPU_COUNT - 1) % GPU_COUNT], inDone = inPkt.t >= 1, outDone = packets[g].t >= 1;
                     var waiting = inDone && !allDone, flash = 0;
-                    if (inPkt.arrivedAt > 0) {var fk = 1 - (now - inPkt.arrivedAt) / 550; if (fk > 0) {fk = Math.min(1, fk); flash = fk * fk * (3 - 2 * fk);} }
+                    if (inPkt.arrivedAt > 0) { var fk = 1 - (now - inPkt.arrivedAt) / 550; if (fk > 0) { fk = Math.min(1, fk); flash = fk * fk * (3 - 2 * fk); } }
                     var gh = gpus[g].halo;
                     gh.setAttribute('stroke', links[(g + GPU_COUNT - 1) % GPU_COUNT].cross ? '#ffb454' : '#61e0d0');
                     gh.setAttribute('r', NODE_R + 2 + flash * 11); gh.setAttribute('stroke-width', 1.6 + flash * 2.4); gh.setAttribute('opacity', flash * .8);
                     var ring = gpus[g].ring;
-                    if (waiting) {var pl = .5 + .5 * Math.sin(now / 210); ring.setAttribute('stroke', '#ffb454'); ring.setAttribute('stroke-width', 2.6 + 1.6 * pl); ring.setAttribute('opacity', .55 + .45 * pl);}
-                    else if (inDone && outDone) {ring.setAttribute('stroke', '#61e0d0'); ring.setAttribute('stroke-width', 3); ring.setAttribute('opacity', 1);}
-                    else {ring.setAttribute('stroke', '#2b4363'); ring.setAttribute('stroke-width', 2.5); ring.setAttribute('opacity', 1);}
+                    if (waiting) { var pl = .5 + .5 * Math.sin(now / 210); ring.setAttribute('stroke', '#ffb454'); ring.setAttribute('stroke-width', 2.6 + 1.6 * pl); ring.setAttribute('opacity', .55 + .45 * pl); }
+                    else if (inDone && outDone) { ring.setAttribute('stroke', '#61e0d0'); ring.setAttribute('stroke-width', 3); ring.setAttribute('opacity', 1); }
+                    else { ring.setAttribute('stroke', '#2b4363'); ring.setAttribute('stroke-width', 2.5); ring.setAttribute('opacity', 1); }
                 }
-                var sumT = packets.reduce(function (s, p) {return s + p.t;}, 0);
+                var sumT = packets.reduce(function (s, p) { return s + p.t; }, 0);
                 progArc.setAttribute('stroke-dashoffset', PROG_C * (1 - (((round - 1) + sumT / GPU_COUNT) / 15)));
                 if (labelAnimStart) {
                     var lk = (now - labelAnimStart) / LABEL_ANIM_MS;
-                    if (lk >= 1) {labelAnimStart = 0; roundLabel.removeAttribute('transform'); roundLabel.setAttribute('opacity', 1);}
+                    if (lk >= 1) { labelAnimStart = 0; roundLabel.removeAttribute('transform'); roundLabel.setAttribute('opacity', 1); }
                     else {
                         var c1 = 1.70158, c3 = c1 + 1, eb = 1 + c3 * Math.pow(lk - 1, 3) + c1 * Math.pow(lk - 1, 2), sL = .55 + .45 * eb;
                         roundLabel.setAttribute('opacity', Math.min(1, lk * 3));
@@ -1612,216 +1286,745 @@
                 requestAnimationFrame(tick);
                 if (!last) last = now;
                 var dt = Math.min(.05, (now - last) / 1000); last = now; if (dt <= 0) return;
-                if (phase === 'gap') {gapLeft -= dt; draw(GPU_COUNT); if (gapLeft <= 0) spawnRound(); return;}
+                if (phase === 'gap') { gapLeft -= dt; draw(GPU_COUNT); if (gapLeft <= 0) spawnRound(); return; }
                 var done = 0;
-                packets.forEach(function (p) {var prev = p.t; p.t += dt / links[p.idx].dur; if (p.t >= 1) {p.t = 1; done++; if (prev < 1) p.arrivedAt = now;} });
+                packets.forEach(function (p) { var prev = p.t; p.t += dt / links[p.idx].dur; if (p.t >= 1) { p.t = 1; done++; if (prev < 1) p.arrivedAt = now; } });
                 draw(done);
-                if (done === GPU_COUNT) {phase = 'gap'; gapLeft = GAP;}
+                if (done === GPU_COUNT) { phase = 'gap'; gapLeft = GAP; }
             }
             spawnRound(); requestAnimationFrame(tick);
         })();
+    </script>
 
-        /* CHARM+ two-node hierarchical animation */
+    <script>
+        /* ---------- Figure 2: CHARM+ circular three-phase KV/Q + bidirectional cross-node Q ---------- */
         (function () {
             'use strict';
+
             var NS = 'http://www.w3.org/2000/svg';
             var svg = document.getElementById('charmSvg');
             if (!svg) return;
-            var gpuLayer = document.getElementById('charmGPUs');
-            var packetLayer = document.getElementById('charmPackets');
-            var phaseName = document.getElementById('charmPhaseName');
-            var roundLabel = document.getElementById('charmRound');
-            var status = document.getElementById('charmStatus');
-            var playButton = document.getElementById('charmPlay');
-            var nextButton = document.getElementById('charmNext');
-            var restartButton = document.getElementById('charmRestart');
+            svg.innerHTML = '';
 
-            var phases = [
-                {name: 'PHASE 1 · INTRA-NODE ROTATION', status: 'Local diagonal attention · skewed group rotation', links: ['charmLocalLinks', 'charmLocalLinksB'], pipe: [0, 1, 2], color: '#69a9ff'},
-                {name: 'PHASE 2 · INTER-NODE COLUMN EXCHANGE', status: 'Rotate Q / KV · exchange column Q · merge O + LSE', links: ['charmColumnLinks'], pipe: [0, 1, 2, 3], color: '#ffb454'},
-                {name: 'PHASE 3 · TAIL RING & RE-MERGE', status: 'Process remaining blocks · merge returned partial results', links: ['charmSkewLinks', 'charmLocalLinksB'], pipe: [1, 2, 3, 4], color: '#61e0d0'}
-            ];
-            var phase = 0, round = 1, paused = false, phaseElapsed = 0, lastTime = 0;
-            var PHASE_DURATION = 3000, ROUND_DURATION = PHASE_DURATION * phases.length, packets = [];
-            var positions = [];
+            var N = 16;
+            var CX = 450, CY = 340, R = 240;
+            var SPAN = 2 * Math.PI / N;
+            var DEG = Math.PI / 180;
+            var IS_SMALL = window.innerWidth <= 640;
+            var NODE_R = IS_SMALL ? 27 : 22;
+            function FS(n) { return IS_SMALL ? Math.round(n * 1.45 * 10) / 10 : n; }
+            var HUB_R = IS_SMALL ? 78 : 70;
+
+            var P = [];
+            for (var i = 0; i < N; i++) {
+                var a = -Math.PI / 2 + i * SPAN;
+                P.push({ x: CX + R * Math.cos(a), y: CY + R * Math.sin(a), a: a });
+            }
+            function isB(i) { return i >= 8; }
+
             function el(tag, attrs, parent) {
-                var node = document.createElementNS(NS, tag);
-                Object.keys(attrs || {}).forEach(function (k) {node.setAttribute(k, attrs[k]);});
-                (parent || svg).appendChild(node); return node;
+                var e = document.createElementNS(NS, tag);
+                for (var k in attrs) e.setAttribute(k, attrs[k]);
+                (parent || svg).appendChild(e);
+                return e;
             }
-            function link(group, from, to, curve) {
-                var a = positions[from], b = positions[to], d;
-                if (curve) {
-                    var mx = (a.x + b.x) / 2 + curve.dx, my = (a.y + b.y) / 2 + curve.dy;
-                    d = 'M' + a.x + ',' + a.y + ' Q' + mx + ',' + my + ' ' + b.x + ',' + b.y;
-                } else d = 'M' + a.x + ',' + a.y + ' L' + b.x + ',' + b.y;
-                el('path', {d: d, 'data-from': from, 'data-to': to}, group);
+
+            function bandD(a0, a1, rIn, rOut) {
+                var x0o = CX + rOut * Math.cos(a0), y0o = CY + rOut * Math.sin(a0);
+                var x1o = CX + rOut * Math.cos(a1), y1o = CY + rOut * Math.sin(a1);
+                var x1i = CX + rIn * Math.cos(a1), y1i = CY + rIn * Math.sin(a1);
+                var x0i = CX + rIn * Math.cos(a0), y0i = CY + rIn * Math.sin(a0);
+                var large = (a1 - a0) > Math.PI ? 1 : 0;
+                return 'M' + x0o.toFixed(2) + ',' + y0o.toFixed(2) +
+                    ' A' + rOut + ',' + rOut + ' 0 ' + large + ' 1 ' +
+                    x1o.toFixed(2) + ',' + y1o.toFixed(2) +
+                    ' L' + x1i.toFixed(2) + ',' + y1i.toFixed(2) +
+                    ' A' + rIn + ',' + rIn + ' 0 ' + large + ' 0 ' +
+                    x0i.toFixed(2) + ',' + y0i.toFixed(2) + ' Z';
             }
-            function buildTopology() {
-                var localA = document.getElementById('charmLocalLinks');
-                var localB = document.getElementById('charmLocalLinksB');
-                var column = document.getElementById('charmColumnLinks');
-                var skew = document.getElementById('charmSkewLinks');
-                [localA, localB, column, skew].forEach(function (g) {g.innerHTML = '';});
-                for (var n = 0; n < 2; n++) {
-                    var base = n * 8, x0 = n === 0 ? 91 : 565;
-                    for (var r = 0; r < 2; r++) {
-                        for (var c = 0; c < 4; c++) {
-                            var id = base + r * 4 + c;
-                            positions[id] = {x: x0 + c * 78, y: r === 0 ? 151 : 241};
+
+            /* ---------- Node background sectors: match Figure 1, leaving gaps at 77.5°–80° and 257.5°–260° ---------- */
+            el('path', {
+                d: bandD(-100 * DEG, 77.5 * DEG, R - 52, R + 52),
+                fill: 'rgba(105,169,255,.055)',
+                stroke: 'rgba(105,169,255,.20)',
+                'stroke-width': 1
+            });
+            el('path', {
+                d: bandD(80 * DEG, 257.5 * DEG, R - 52, R + 52),
+                fill: 'rgba(170,130,255,.055)',
+                stroke: 'rgba(170,130,255,.20)',
+                'stroke-width': 1
+            });
+
+            /* ---------- node labels ---------- */
+            var labA = el('text', {
+                x: 480, y: IS_SMALL ? 30 : 40,
+                'text-anchor': 'middle', fill: '#7fb6ff',
+                'font-size': FS(10.5), 'font-weight': 700, 'letter-spacing': '.7'
+            });
+            labA.textContent = 'NODE A · G0–G7';
+            el('circle', {
+                cx: IS_SMALL ? 432 : 420, cy: IS_SMALL ? 26 : 36,
+                r: IS_SMALL ? 4 : 3.5, fill: '#4da3ff'
+            });
+
+            var labB = el('text', {
+                x: 440, y: IS_SMALL ? 662 : 652,
+                'text-anchor': 'middle', fill: '#b9a4ff',
+                'font-size': FS(10.5), 'font-weight': 700, 'letter-spacing': '.7'
+            });
+            labB.textContent = 'NODE B · G8–G15';
+            el('circle', {
+                cx: IS_SMALL ? 432 : 380, cy: IS_SMALL ? 658 : 648,
+                r: IS_SMALL ? 4 : 3.5, fill: '#b48cff'
+            });
+
+            /* ---------- outer track ---------- */
+            el('circle', { cx: CX, cy: CY, r: R, fill: 'none', stroke: '#0e1c2d', 'stroke-width': 16 });
+            el('circle', { cx: CX, cy: CY, r: R, fill: 'none', stroke: '#1a3350', 'stroke-width': 5 });
+
+            /* ---------- decorative radial spokes ---------- */
+            for (var s = 0; s < N; s++) {
+                var ang = P[s].a;
+                el('line', {
+                    x1: CX + (HUB_R + 4) * Math.cos(ang),
+                    y1: CY + (HUB_R + 4) * Math.sin(ang),
+                    x2: CX + (R - NODE_R - 9) * Math.cos(ang),
+                    y2: CY + (R - NODE_R - 9) * Math.sin(ang),
+                    stroke: isB(s) ? '#3b3057' : '#1e3552',
+                    'stroke-width': 1.2, 'stroke-dasharray': '3 9', 'stroke-linecap': 'round'
+                });
+            }
+
+            /*
+              Layer order (bottom to top):
+              1. arcLayer       Intra-node arcs
+              2. crossLineLayer cross-node links (including glow)
+              3. crossBallLayer cross-node particles
+              4. hubBgLayer     central panel background (covers cross-node links and particles)
+              5. gpuLayer       GPU nodes
+              6. hubTopLayer    central progress ring and text
+              7. localBallLayer intra-node particles (topmost layer)
+            */
+            var arcLayer = el('g', {});
+            var crossLineLayer = el('g', {});
+            var crossBallLayer = el('g', {});
+            var hubBgLayer = el('g', {});
+            var gpuLayer = el('g', {});
+            var hubTopLayer = el('g', {});
+            var localBallLayer = el('g', {});
+
+            /* ---------- GPUs ---------- */
+            var gpus = [];
+            for (var g = 0; g < N; g++) {
+                var p = P[g];
+                var nb = isB(g);
+                var accent = nb ? '#b48cff' : '#69a9ff';
+                var base = nb ? '#3a3160' : '#2b4363';
+                var halo = el('circle', {
+                    cx: p.x, cy: p.y, r: NODE_R + 2, fill: 'none', stroke: accent,
+                    'stroke-width': 1.6, opacity: 0
+                }, gpuLayer);
+                el('circle', { cx: p.x, cy: p.y, r: NODE_R, fill: '#0a1626' }, gpuLayer);
+                var ring = el('circle', {
+                    cx: p.x, cy: p.y, r: NODE_R, fill: 'none', stroke: base, 'stroke-width': 2.5
+                }, gpuLayer);
+                var txt = el('text', {
+                    x: p.x, y: p.y + FS(4), 'text-anchor': 'middle',
+                    fill: '#dbe9fb', 'font-size': FS(11), 'font-weight': 800
+                }, gpuLayer);
+                txt.textContent = 'G' + g;
+                /* 完成状态扩散光圈（与图1一致） */
+                var flash = el('circle', {
+                    cx: p.x, cy: p.y, r: NODE_R, fill: 'none', stroke: '#61e0d0',
+                    'stroke-width': 2.5, opacity: 0, 'pointer-events': 'none'
+                }, gpuLayer);
+                gpus.push({ halo: halo, ring: ring, accent: accent, base: base, flash: flash });
+            }
+
+            /* ---------- hub background ---------- */
+            el('circle', { cx: CX, cy: CY, r: HUB_R, fill: '#0b1727', stroke: '#22364f', 'stroke-width': 1.5 }, hubBgLayer);
+
+            /* ---------- hub top ---------- */
+            var PROG_R = HUB_R - 7;
+            var PROG_C = 2 * Math.PI * PROG_R;
+            el('circle', { cx: CX, cy: CY, r: PROG_R, fill: 'none', stroke: '#16283d', 'stroke-width': 3 }, hubTopLayer);
+            var progArc = el('circle', {
+                cx: CX, cy: CY, r: PROG_R, fill: 'none', stroke: '#61e0d0', 'stroke-width': 3,
+                'stroke-linecap': 'round', 'stroke-dasharray': PROG_C, 'stroke-dashoffset': PROG_C,
+                transform: 'rotate(-90 ' + CX + ' ' + CY + ')'
+            }, hubTopLayer);
+            var phaseTitle = el('text', {
+                x: CX, y: CY - 4, 'text-anchor': 'middle',
+                fill: '#edf4ff', 'font-size': FS(10.5), 'font-weight': 800, 'letter-spacing': '.6'
+            }, hubTopLayer);
+            var phaseSub = el('text', {
+                x: CX, y: CY + 12, 'text-anchor': 'middle',
+                fill: '#93a8c4', 'font-size': FS(8.5)
+            }, hubTopLayer);
+
+            /* ---------- timeline constants (with inter-phase buffer) ---------- */
+            var PHASE_MS = 1400;
+            var BUFFER_MS = 600;                       // 阶段间缓冲，让完成状态停留更久
+            var SLOT = PHASE_MS + BUFFER_MS;
+
+            var FIRST_END = 3 * SLOT;                 // 6000
+            var CROSS_STAGGER = 130;
+            var CROSS_LEG = 900;
+            var CROSS1_LAST = 7 * CROSS_STAGGER + CROSS_LEG;   // 1810
+            var SECOND_START = Math.max(FIRST_END, CROSS1_LAST) + 400;  // 6400
+            var SECOND_END = SECOND_START + 3 * SLOT; // 12400
+            var CROSS2_START = SECOND_END + 200;      // 12600
+            var CROSS2_LAST = CROSS2_START + 7 * CROSS_STAGGER + CROSS_LEG; // 14410
+            var CYCLE_END = CROSS2_LAST + 600;        // 15010
+
+            /* ---------- bidirectional cross-node Q ---------- */
+            var crossLineColor = '#b48cff';
+            var crossGlowColor = '#7a5cc7';
+            var crossVisuals = [];
+            for (var ci = 0; ci < 8; ci++) {
+                var from = ci, to = ci + 8;
+                var a0 = P[from], b0 = P[to];
+                var glow = el('line', {
+                    x1: a0.x, y1: a0.y, x2: b0.x, y2: b0.y,
+                    stroke: crossGlowColor, 'stroke-width': 6,
+                    'stroke-linecap': 'round', opacity: 0, 'pointer-events': 'none'
+                }, crossLineLayer);
+                var line = el('line', {
+                    x1: a0.x, y1: a0.y, x2: b0.x, y2: b0.y,
+                    stroke: crossLineColor, 'stroke-width': 2,
+                    'stroke-linecap': 'round', opacity: 0, 'pointer-events': 'none'
+                }, crossLineLayer);
+                var ballA = el('circle', {
+                    r: 4.2, fill: crossLineColor, opacity: 0, 'pointer-events': 'none'
+                }, crossBallLayer);
+                var ballB = el('circle', {
+                    r: 4.2, fill: crossLineColor, opacity: 0, 'pointer-events': 'none'
+                }, crossBallLayer);
+                crossVisuals.push({
+                    from: from, to: to,
+                    glow: glow, line: line,
+                    ballA: ballA, ballB: ballB,
+                    start1: ci * CROSS_STAGGER,
+                    start2: CROSS2_START + ci * CROSS_STAGGER,
+                    leg: CROSS_LEG
+                });
+            }
+
+            function updateCross(t) {
+                crossVisuals.forEach(function (v) {
+                    var win = null;
+                    if (t >= v.start1 - 140 && t <= v.start1 + v.leg + 300) {
+                        win = { start: v.start1, end: v.start1 + v.leg, fadeIn: 140, fadeOut: 300 };
+                    } else if (t >= v.start2 - 140 && t <= v.start2 + v.leg + 300) {
+                        win = { start: v.start2, end: v.start2 + v.leg, fadeIn: 140, fadeOut: 300 };
+                    }
+
+                    if (!win) {
+                        v.glow.setAttribute('opacity', 0);
+                        v.line.setAttribute('opacity', 0);
+                        v.ballA.setAttribute('opacity', 0);
+                        v.ballB.setAttribute('opacity', 0);
+                        return;
+                    }
+
+                    var op;
+                    if (t < win.start) op = (t - (win.start - win.fadeIn)) / win.fadeIn;
+                    else if (t <= win.end) op = 1;
+                    else op = 1 - (t - win.end) / win.fadeOut;
+                    op = Math.max(0, Math.min(1, op));
+
+                    v.glow.setAttribute('opacity', (op * 0.35).toFixed(3));
+                    v.line.setAttribute('opacity', (op * 0.85).toFixed(3));
+
+                    if (t < win.start || t > win.end) {
+                        v.ballA.setAttribute('opacity', 0);
+                        v.ballB.setAttribute('opacity', 0);
+                        return;
+                    }
+
+                    var p = (t - win.start) / (win.end - win.start);
+                    var a = P[v.from], b = P[v.to];
+
+                    v.ballA.setAttribute('cx', (a.x + (b.x - a.x) * p).toFixed(1));
+                    v.ballA.setAttribute('cy', (a.y + (b.y - a.y) * p).toFixed(1));
+                    v.ballA.setAttribute('opacity', 0.95);
+
+                    v.ballB.setAttribute('cx', (b.x + (a.x - b.x) * p).toFixed(1));
+                    v.ballB.setAttribute('cy', (b.y + (a.y - b.y) * p).toFixed(1));
+                    v.ballB.setAttribute('opacity', 0.95);
+                });
+            }
+
+            /* ---------- intra-node transfers ---------- */
+            var KV_COLOR = '#69a9ff';        // KV 使用原本 Intra-node arcs 的蓝色
+            var Q_COLOR = '#ffb454';
+            var CROSS_Q_COLOR = '#b48cff';
+            var localVisuals = [];
+            var currentStageKey = '';
+
+            /* 每个阶段的每张卡的完成时刻 + 完成/闪光状态 */
+            var stageGpuDone = {};
+            var gpuDone = new Array(N).fill(false);
+            var gpuFlashAt = new Array(N).fill(-1);
+
+            /*
+              Four stable visual lanes for intra-node traffic:
+              - inner pair of lanes: KV (blue, one-way)
+              - outer pair of lanes: Q (amber/purple, round-trip)
+              Keeping the lane family tied to the payload type makes it much
+              easier to distinguish KV from Q; the small sub-lane offset keeps
+              concurrent transfers from being drawn directly on top of each other.
+            */
+            function arcRadius(from, to, isQ) {
+                var pairLane = (Math.floor(from / 2) + Math.floor(to / 2)) % 2;
+                var kvBase = R + NODE_R + 7;
+                var qBase = R + NODE_R + 25;
+                return (isQ ? qBase : kvBase) + pairLane * 8;
+            }
+
+            function intraAngles(from, to) {
+                var a0 = P[from].a, a1 = P[to].a;
+                var diff = a1 - a0;
+                while (diff > Math.PI) diff -= 2 * Math.PI;
+                while (diff < -Math.PI) diff += 2 * Math.PI;
+                return { a0: a0, a1: a1, diff: diff };
+            }
+
+            function intraArcPath(from, to, rArc) {
+                var p0 = P[from], p1 = P[to];
+                var A = intraAngles(from, to);
+                var u0x = Math.cos(A.a0), u0y = Math.sin(A.a0);
+                var u1x = Math.cos(A.a1), u1y = Math.sin(A.a1);
+                var rIn = NODE_R + 2;
+                var edge0x = p0.x + u0x * rIn, edge0y = p0.y + u0y * rIn;
+                var edge1x = p1.x + u1x * rIn, edge1y = p1.y + u1y * rIn;
+                var a0x = CX + u0x * rArc, a0y = CY + u0y * rArc;
+                var a1x = CX + u1x * rArc, a1y = CY + u1y * rArc;
+                var sweep = A.diff > 0 ? 1 : 0;
+                return 'M' + edge0x.toFixed(2) + ',' + edge0y.toFixed(2) +
+                    ' L' + a0x.toFixed(2) + ',' + a0y.toFixed(2) +
+                    ' A' + rArc + ',' + rArc + ' 0 0 ' + sweep + ' ' + a1x.toFixed(2) + ',' + a1y.toFixed(2) +
+                    ' L' + edge1x.toFixed(2) + ',' + edge1y.toFixed(2);
+            }
+
+            function intraPointAt(from, to, rArc, u) {
+                var p0 = P[from], p1 = P[to];
+                var A = intraAngles(from, to);
+                var u0x = Math.cos(A.a0), u0y = Math.sin(A.a0);
+                var u1x = Math.cos(A.a1), u1y = Math.sin(A.a1);
+                var rIn = NODE_R + 2;
+                var edge0x = p0.x + u0x * rIn, edge0y = p0.y + u0y * rIn;
+                var edge1x = p1.x + u1x * rIn, edge1y = p1.y + u1y * rIn;
+                var a0x = CX + u0x * rArc, a0y = CY + u0y * rArc;
+                var a1x = CX + u1x * rArc, a1y = CY + u1y * rArc;
+
+                var seg = 0.14;
+                if (u < seg) {
+                    var k = u / seg;
+                    return { x: edge0x + (a0x - edge0x) * k, y: edge0y + (a0y - edge0y) * k };
+                }
+                if (u > 1 - seg) {
+                    var k2 = (u - (1 - seg)) / seg;
+                    return { x: a1x + (edge1x - a1x) * k2, y: a1y + (edge1y - a1y) * k2 };
+                }
+                var k3 = (u - seg) / (1 - 2 * seg);
+                var ang = A.a0 + A.diff * k3;
+                return { x: CX + rArc * Math.cos(ang), y: CY + rArc * Math.sin(ang) };
+            }
+
+            function clearLocal() {
+                localVisuals.forEach(function (v) { v.path.remove(); v.ball.remove(); });
+                localVisuals = [];
+            }
+
+            function addLocal(from, to, isQ, color, offset, dur) {
+                var rArc = arcRadius(from, to, isQ);
+                var path = el('path', {
+                    d: intraArcPath(from, to, rArc),
+                    fill: 'none', stroke: color, 'stroke-width': 1.8,
+                    'stroke-linecap': 'round', opacity: 0, 'pointer-events': 'none'
+                }, arcLayer);
+                var ball = el('circle', {
+                    r: 4, fill: color, opacity: 0, 'pointer-events': 'none'
+                }, localBallLayer);
+                localVisuals.push({
+                    from: from, to: to, isQ: isQ, color: color,
+                    path: path, ball: ball, rArc: rArc,
+                    offset: offset, dur: dur
+                });
+            }
+
+            /* 重置全部显卡的“完成”状态 */
+            function resetGpuDone() {
+                for (var gi = 0; gi < N; gi++) {
+                    gpuDone[gi] = false;
+                    gpuFlashAt[gi] = -1;
+                    gpus[gi].flash.setAttribute('opacity', 0);
+                }
+            }
+
+            /* 将全部显卡立即标记为完成，并触发一次扩散环（用于缓冲期） */
+            function completeAllGpus() {
+                var now = performance.now();
+                for (var gi = 0; gi < N; gi++) {
+                    if (!gpuDone[gi]) {
+                        gpuDone[gi] = true;
+                        gpuFlashAt[gi] = now;
+                    }
+                }
+            }
+
+            /*
+              Intra-node three-phase schedule (same pattern in both rounds):
+              Phase 1: i -> i^1, KV one-way.
+              Phase 2: inside each 4-GPU group:
+                       k = i - base; pairBase = base + ((floor(k/2)+1)%2)*2
+                       k even: first target KV, second target Q
+                       k odd : first target Q,  second target KV
+              Phase 3: between the two 4-GPU groups of the same node:
+                       even i -> first two targets KV, last two targets Q
+                       odd  i -> first two targets Q,  last two targets KV
+
+              Round 1: Q slots carry intra-node Q (amber, round-trip).
+              Round 2: identical pattern; Q slots carry cross-node-received Q (purple, round-trip).
+                       KV slots still carry KV (blue, one-way).
+            */
+            function buildStage(kind, phase) {
+                clearLocal();
+                var qColor = (kind === 'second') ? CROSS_Q_COLOR : Q_COLOR;
+
+                for (var i = 0; i < 16; i++) {
+                    if (phase === 0) {
+                        addLocal(i, i ^ 1, false, KV_COLOR, ((i * 7) % 8) * 70, 650);
+                    }
+
+                    if (phase === 1) {
+                        var gb = Math.floor(i / 4) * 4;
+                        var k = i - gb;
+                        var pairBase = gb + ((Math.floor(k / 2) + 1) % 2) * 2;
+                        var firstIsKV = (k % 2 === 0);
+
+                        var t1 = pairBase;
+                        var t2 = pairBase + 1;
+                        var q1IsQ = !firstIsKV;
+                        var q2IsQ = firstIsKV;
+
+                        addLocal(i, t1, q1IsQ, q1IsQ ? qColor : KV_COLOR,
+                            ((i * 5) % 8) * 70, q1IsQ ? 900 : 600);
+                        addLocal(i, t2, q2IsQ, q2IsQ ? qColor : KV_COLOR,
+                            ((i * 5 + 3) % 8) * 70, q2IsQ ? 900 : 600);
+                    }
+
+                    if (phase === 2) {
+                        var nodeBase = i < 8 ? 0 : 8;
+                        var within = i - nodeBase;
+                        var targetBase = nodeBase + (within < 4 ? 4 : 0);
+                        var even = (i % 2 === 0);
+                        for (var t = 0; t < 4; t++) {
+                            var target = targetBase + t;
+                            var isKV = even ? (t < 2) : (t >= 2);
+                            var q = !isKV;
+                            addLocal(i, target, q, q ? qColor : KV_COLOR,
+                                ((i * 3 + t * 5) % 10) * 55, q ? 900 : 600);
                         }
                     }
                 }
-                // Intra-node cyclic rotation in each row.
-                for (n = 0; n < 2; n++) {
-                    var b = n * 8, group = n === 0 ? localA : localB;
-                    for (r = 0; r < 2; r++)for (c = 0; c < 4; c++) {
-                        link(group, b + r * 4 + c, b + r * 4 + (c + 1) % 4, {dx: 0, dy: r === 0 ? -24 : 24});
-                    }
-                    // Offset row exchange illustrates skewed grouping.
-                    for (c = 0; c < 4; c++) {
-                        link(group, b + c, b + 4 + (c + 1) % 4, {dx: 0, dy: c % 2 === 0 ? -14 : 14});
-                        link(group, b + 4 + c, b + ((c + 3) % 4), {dx: 0, dy: c % 2 === 0 ? 14 : -14});
-                    }
-                }
-                // Same-column cross-node exchange: each column is a separate path.
-                for (r = 0; r < 2; r++)for (c = 0; c < 4; c++) {
-                    link(column, r * 4 + c, 8 + r * 4 + c, null);
-                }
-                // Skewed, non-neighbor paths across nodes.
-                for (c = 0; c < 4; c++) {
-                    link(skew, c, 8 + 4 + ((c + 1) % 4), {dx: 0, dy: -75});
-                    link(skew, 4 + c, 8 + ((c + 3) % 4), {dx: 0, dy: 75});
-                }
-            }
-            function buildGPUs() {
-                gpuLayer.innerHTML = '';
-                for (var i = 0; i < 16; i++) {
-                    var p = positions[i];
-                    var group = el('g', {'data-gpu': i}, gpuLayer);
-                    el('rect', {x: p.x - 25, y: p.y - 23, width: 50, height: 46, rx: 10, fill: '#0b192a', stroke: '#426080', 'stroke-width': 1.7, class: 'charm-gpu'}, group);
-                    el('text', {x: p.x, y: p.y + 4, 'text-anchor': 'middle', fill: '#e4efff', 'font-size': 12, 'font-weight': 800, 'pointer-events': 'none'}, group).textContent = 'G' + i;
-                    el('text', {x: p.x, y: p.y + 15, 'text-anchor': 'middle', fill: '#7995b6', 'font-size': 7.5, 'pointer-events': 'none'}, group).textContent = i < 8 ? 'NODE A' : 'NODE B';
-                }
-            }
-            function makePacket(from, to, color, offset, groupId) {
-                var circle = el('circle', {r: 4.2, fill: color, opacity: 0, class: 'charm-packet'}, packetLayer);
-                return {from: from, to: to, color: color, offset: offset, circle: circle, groupId: groupId};
-            }
-            function buildPackets() {
-                packets.forEach(function (p) {p.circle.remove();});
-                packets = [];
-                // Local row rotations, independently in each node.
-                for (var n = 0; n < 2; n++) {
-                    var b = n * 8;
-                    for (var r = 0; r < 2; r++)for (var c = 0; c < 4; c++) {
-                        var from = b + r * 4 + c, to = b + r * 4 + (c + 1) % 4;
-                        packets.push(makePacket(from, to, '#69a9ff', (c + r * 2 + n) / 8, 'local'));
-                    }
-                    // Skewed row-group exchanges.
-                    for (c = 0; c < 4; c++) {
-                        packets.push(makePacket(b + c, b + 4 + (c + 1) % 4, '#61e0d0', (c + n) / 6, 'skew'));
-                    }
-                }
-                // Same-column inter-node exchanges.
-                for (r = 0; r < 2; r++)for (c = 0; c < 4; c++) {
-                    packets.push(makePacket(r * 4 + c, 8 + r * 4 + c, '#ffb454', (c + r * 2) / 8, 'column'));
-                }
-                // Cross-node skewed paths for tail phase.
-                for (c = 0; c < 4; c++) {
-                    packets.push(makePacket(c, 8 + 4 + (c + 1) % 4, '#61e0d0', c / 5, 'tail'));
-                    packets.push(makePacket(4 + c, 8 + (c + 3) % 4, '#61e0d0', (c + 1) / 5, 'tail'));
-                }
-            }
-            function setPhase(next) {
-                phase = (next + phases.length) % phases.length;
-                var p = phases[phase];
-                phaseName.textContent = p.name;
-                status.textContent = p.status;
-                document.querySelectorAll('#charmLocalLinks path,#charmLocalLinksB path').forEach(function (x) {x.classList.remove('charm-local-active');});
-                document.querySelectorAll('#charmColumnLinks path').forEach(function (x) {x.classList.remove('charm-column-active');});
-                document.querySelectorAll('#charmSkewLinks path').forEach(function (x) {x.classList.remove('charm-skew-active');});
-                p.links.forEach(function (id) {
-                    var g = document.getElementById(id);
-                    if (!g) return;
-                    var cls = id.indexOf('Column') >= 0 ? 'charm-column-active' : id.indexOf('Skew') >= 0 ? 'charm-skew-active' : 'charm-local-active';
-                    g.querySelectorAll('path').forEach(function (path) {path.classList.add(cls);});
-                });
-                var pipe = document.getElementById('charmPipe');
-                Array.from(pipe.children).forEach(function (node, i) {
-                    node.setAttribute('stroke', p.pipe.indexOf(i) >= 0 ? p.color : '#31577c');
-                    node.setAttribute('stroke-width', p.pipe.indexOf(i) >= 0 ? '2.5' : '1');
-                });
-            }
-            function updatePackets(t) {
-                packets.forEach(function (p) {
-                    var active = false;
-                    if (phase === 0) active = p.groupId === 'local' || p.groupId === 'skew';
-                    if (phase === 1) active = p.groupId === 'column' || p.groupId === 'local';
-                    if (phase === 2) active = p.groupId === 'tail' || p.groupId === 'skew';
-                    var a = positions[p.from], b = positions[p.to];
-                    var u = ((t / PHASE_DURATION + p.offset) % 1 + 1) % 1;
-                    // A small pause at the beginning gives each phase a readable reset.
-                    var x = a.x + (b.x - a.x) * u, y = a.y + (b.y - a.y) * u;
-                    p.circle.setAttribute('cx', x.toFixed(2));
-                    p.circle.setAttribute('cy', y.toFixed(2));
-                    p.circle.setAttribute('opacity', active ? '0.95' : '0.08');
-                    p.circle.setAttribute('r', active ? 4.2 : 2.5);
-                });
-                var activeColor = phases[phase].color;
-                document.querySelectorAll('#charmGPUs rect').forEach(function (rect, i) {
-                    var lit = (i + round + phase) % 4 === 0;
-                    rect.setAttribute('stroke', lit ? activeColor : '#426080');
-                    rect.setAttribute('fill', lit ? '#142b43' : '#0b192a');
-                });
-            }
-            function advance(now) {
-                requestAnimationFrame(advance);
-                if (!lastTime) lastTime = now;
-                var dt = Math.min(80, now - lastTime); lastTime = now;
-                if (!paused) {
-                    phaseElapsed += dt;
-                    if (phaseElapsed >= PHASE_DURATION) {
-                        phaseElapsed -= PHASE_DURATION;
-                        if (phase === phases.length - 1) round = round % 7 + 1;
-                        setPhase(phase + 1);
-                    }
-                    updatePackets(phaseElapsed);
-                }
-                roundLabel.textContent = 'ROUND ' + round + ' / 7';
-            }
-            playButton.addEventListener('click', function () {
-                paused = !paused;
-                playButton.textContent = paused ? 'Resume animation' : 'Pause animation';
-            });
-            nextButton.addEventListener('click', function () {
-                phaseElapsed = 0;
-                if (phase === phases.length - 1) round = round % 7 + 1;
-                setPhase(phase + 1);
-                updatePackets(phaseElapsed);
-            });
-            restartButton.addEventListener('click', function () {
-                round = 1; phaseElapsed = 0; paused = false;
-                playButton.textContent = 'Pause animation';
-                setPhase(0); updatePackets(phaseElapsed);
-            });
-            buildTopology();
-            buildGPUs();
-            buildPackets();
-            setPhase(0);
-            updatePackets(0);
-            requestAnimationFrame(advance);
-        })();
 
+                /* 计算该阶段每张卡的完成时刻（发出 + 收到的传输全部结束） */
+                stageGpuDone = {};
+                for (var vi = 0; vi < localVisuals.length; vi++) {
+                    var vv = localVisuals[vi];
+                    var endT = vv.offset + vv.dur;
+                    if (stageGpuDone[vv.from] === undefined || stageGpuDone[vv.from] < endT) stageGpuDone[vv.from] = endT;
+                    if (stageGpuDone[vv.to] === undefined || stageGpuDone[vv.to] < endT) stageGpuDone[vv.to] = endT;
+                }
+                resetGpuDone();
+
+                currentStageKey = kind + '-' + phase;
+            }
+
+            var timelineElapsed = 0;
+            var lastTime = 0;
+            var paused = false;
+            /* Default playback speed: 0.5 = half speed. Change to 1 or 0.25 if preferred. */
+            var speed = 0.5;
+
+            function stageInfo(t) {
+                if (t < FIRST_END) {
+                    var slot = Math.floor(t / SLOT);
+                    var inSlot = t - slot * SLOT;
+                    if (inSlot < PHASE_MS) {
+                        return { key: 'first-' + slot, kind: 'first', phase: slot, elapsed: inSlot, buffer: false, round: 1 };
+                    } else {
+                        return { key: 'first-' + slot + '-buf', kind: 'buffer', phase: slot, elapsed: inSlot - PHASE_MS, buffer: true, prevKey: 'first-' + slot, round: 1 };
+                    }
+                }
+                if (t < SECOND_START) return { key: 'wait', kind: 'wait', phase: -1, elapsed: 0, buffer: false, round: 1 };
+                if (t < SECOND_END) {
+                    var lt = t - SECOND_START;
+                    var slot2 = Math.floor(lt / SLOT);
+                    var inSlot2 = lt - slot2 * SLOT;
+                    if (inSlot2 < PHASE_MS) {
+                        return { key: 'second-' + slot2, kind: 'second', phase: slot2, elapsed: inSlot2, buffer: false, round: 2 };
+                    } else {
+                        return { key: 'second-' + slot2 + '-buf', kind: 'buffer', phase: slot2, elapsed: inSlot2 - PHASE_MS, buffer: true, prevKey: 'second-' + slot2, round: 2 };
+                    }
+                }
+                if (t < CROSS2_LAST) return { key: 'cross2', kind: 'cross2', phase: -1, elapsed: 0, buffer: false, round: 2 };
+                return { key: 'done', kind: 'done', phase: -1, elapsed: 0, buffer: false, round: 2 };
+            }
+
+            function updateLocal(info) {
+                /* 等待、返回、完成：清空弧线，但保留完成状态，直到下一阶段开始才重置 */
+                if (info.kind === 'wait' || info.kind === 'done' || info.kind === 'cross2') {
+                    if (currentStageKey !== 'idle') {
+                        clearLocal();
+                        currentStageKey = 'idle';
+                    }
+                    return;
+                }
+
+                /* 缓冲期：保持上一阶段的完成状态，不再运行动画 */
+                if (info.kind === 'buffer') {
+                    var bufKey = (info.round || '') + '-buf-' + info.phase;
+                    if (currentStageKey !== bufKey) {
+                        clearLocal();
+                        completeAllGpus();
+                        currentStageKey = bufKey;
+                    }
+                    return;
+                }
+
+                /* 活动期：正常构建并更新传输 */
+                if (currentStageKey !== info.key) {
+                    buildStage(info.kind, info.phase);
+                }
+                var elapsed = info.elapsed;
+                localVisuals.forEach(function (v) {
+                    var p = (elapsed - v.offset) / v.dur;
+                    if (p <= 0 || p >= 1) {
+                        v.path.setAttribute('opacity', 0);
+                        v.ball.setAttribute('opacity', 0);
+                        return;
+                    }
+                    var fade = Math.min(1, p * 6, (1 - p) * 6);
+                    v.path.setAttribute('opacity', (fade * 0.6).toFixed(2));
+                    var u;
+                    if (v.isQ) u = p < 0.5 ? p * 2 : (1 - p) * 2;
+                    else u = p;
+                    var pt = intraPointAt(v.from, v.to, v.rArc, u);
+                    v.ball.setAttribute('cx', pt.x.toFixed(1));
+                    v.ball.setAttribute('cy', pt.y.toFixed(1));
+                    v.ball.setAttribute('opacity', 0.95);
+                });
+
+                /* 该轮内每张卡传输完成后，打上“完成”标记并触发一次扩散光圈 */
+                for (var gi = 0; gi < N; gi++) {
+                    var need = stageGpuDone[gi];
+                    if (need !== undefined && elapsed >= need && !gpuDone[gi]) {
+                        gpuDone[gi] = true;
+                        gpuFlashAt[gi] = performance.now();
+                    }
+                }
+            }
+
+            /* 渲染每张卡的完成状态（青色描边 + 呼吸光晕 + 一次性扩散环），与图 1 一致 */
+            function updateGpuStates(now) {
+                for (var g = 0; g < N; g++) {
+                    var gp = gpus[g];
+                    if (gpuDone[g]) {
+                        var pulse = 0.5 + 0.5 * Math.sin(now / 260);
+                        gp.ring.setAttribute('stroke', '#61e0d0');
+                        gp.ring.setAttribute('stroke-width', 3);
+                        gp.halo.setAttribute('stroke', '#61e0d0');
+                        gp.halo.setAttribute('r', (NODE_R + 3 + 3 * pulse).toFixed(1));
+                        gp.halo.setAttribute('stroke-width', (1.6 + 1.2 * pulse).toFixed(2));
+                        gp.halo.setAttribute('opacity', (0.25 + 0.45 * pulse).toFixed(3));
+                    } else {
+                        gp.ring.setAttribute('stroke', gp.base);
+                        gp.ring.setAttribute('stroke-width', 2.5);
+                        gp.halo.setAttribute('opacity', 0);
+                    }
+
+                    var fa = gpuFlashAt[g];
+                    if (fa > 0) {
+                        var k = (now - fa) / 700;
+                        if (k >= 1) {
+                            gpuFlashAt[g] = -1;
+                            gp.flash.setAttribute('opacity', 0);
+                        } else {
+                            gp.flash.setAttribute('r', (NODE_R + 3 + 18 * k).toFixed(1));
+                            gp.flash.setAttribute('opacity', (0.8 * (1 - k) * (1 - k)).toFixed(3));
+                        }
+                    }
+                }
+            }
+
+            function updateUI(info) {
+                var names = [
+                    'Phase 1: Pairwise KV Exchange',
+                    'Phase 2: KV / Q Within 4-GPU Groups',
+                    'Phase 3: KV / Q Between the Two Groups'
+                ];
+                var phaseNameEl = document.getElementById('charmPhaseName');
+                var roundEl = document.getElementById('charmRound');
+
+                if (info.kind === 'first') {
+                    phaseTitle.textContent = 'PHASE ' + (info.phase + 1);
+                    phaseSub.textContent = 'KV / Q';
+                    phaseNameEl.textContent = 'Round 1 · ' + names[info.phase];
+                    roundEl.textContent = 'ROUND 1 / 2';
+                } else if (info.kind === 'buffer') {
+                    phaseTitle.textContent = 'PHASE ' + (info.phase + 1) + ' ✓';
+                    phaseSub.textContent = 'buffer';
+                    phaseNameEl.textContent = 'Round ' + info.round + ' · Phase ' + (info.phase + 1) + ' complete · short buffer';
+                    roundEl.textContent = info.round === 1 ? 'ROUND 1 / 2' : 'ROUND 2 / 2';
+                } else if (info.kind === 'wait') {
+                    phaseTitle.textContent = 'WAIT';
+                    phaseSub.textContent = 'cross Q';
+                    phaseNameEl.textContent = 'Waiting for cross-node Q and Round 1 to complete';
+                    roundEl.textContent = 'WAIT';
+                } else if (info.kind === 'second') {
+                    phaseTitle.textContent = 'PHASE ' + (info.phase + 1);
+                    phaseSub.textContent = 'KV / xQ';
+                    phaseNameEl.textContent = 'Round 2 (cross-node Q) · ' + names[info.phase];
+                    roundEl.textContent = 'ROUND 2 / 2';
+                } else if (info.kind === 'cross2') {
+                    phaseTitle.textContent = 'RETURN';
+                    phaseSub.textContent = 'cross Q back';
+                    phaseNameEl.textContent = 'Round 2 complete · Bidirectional cross-node Q return';
+                    roundEl.textContent = 'RETURN';
+                } else {
+                    phaseTitle.textContent = 'DONE';
+                    phaseSub.textContent = '';
+                    phaseNameEl.textContent = 'Full cycle complete';
+                    roundEl.textContent = 'DONE';
+                }
+
+                var prog = Math.min(1, timelineElapsed / CYCLE_END);
+                progArc.setAttribute('stroke-dashoffset', (PROG_C * (1 - prog)).toFixed(2));
+            }
+
+            function tick(now) {
+                requestAnimationFrame(tick);
+                if (!lastTime) lastTime = now;
+                var dt = Math.min(80, now - lastTime);
+                lastTime = now;
+                if (!paused) {
+                    timelineElapsed += dt * speed;
+                    if (timelineElapsed >= CYCLE_END) {
+                        timelineElapsed = 0;
+                        currentStageKey = '';
+                        clearLocal();
+                        resetGpuDone();
+                    }
+                }
+                updateCross(timelineElapsed);
+                var info = stageInfo(timelineElapsed);
+                updateLocal(info);
+                updateUI(info);
+                updateGpuStates(now);
+            }
+
+            document.getElementById('charmPlay').addEventListener('click', function () {
+                paused = !paused;
+                this.textContent = paused ? 'Resume animation' : 'Pause animation';
+            });
+            /* Phase navigation targets the START of each actual communication phase.
+               Do not include buffer/end boundaries: those caused Previous to jump only
+               a few hundred milliseconds and often remain in the same phase. */
+            function getPhaseStarts() {
+                return [
+                    0,
+                    SLOT,
+                    2 * SLOT,
+                    SECOND_START,
+                    SECOND_START + SLOT,
+                    SECOND_START + 2 * SLOT,
+                    CROSS2_START
+                ];
+            }
+
+            function seekPhase(target) {
+                timelineElapsed = Math.max(0, Math.min(target, CYCLE_END - 1));
+                currentStageKey = '';
+                clearLocal();
+                resetGpuDone();
+                updateCross(timelineElapsed);
+                var info = stageInfo(timelineElapsed);
+                updateLocal(info);
+                updateUI(info);
+            }
+
+            function pauseForManualStep() {
+                paused = true;
+                document.getElementById('charmPlay').textContent = 'Resume animation';
+            }
+
+            document.getElementById('charmPrev').addEventListener('click', function () {
+                var starts = getPhaseStarts();
+                var prev = starts[0];
+                for (var i = 0; i < starts.length; i++) {
+                    if (starts[i] < timelineElapsed - 20) prev = starts[i];
+                    else break;
+                }
+                pauseForManualStep();
+                seekPhase(prev);
+            });
+
+            document.getElementById('charmNext').addEventListener('click', function () {
+                var starts = getPhaseStarts();
+                var next = starts[starts.length - 1];
+                for (var i = 0; i < starts.length; i++) {
+                    if (starts[i] > timelineElapsed + 20) { next = starts[i]; break; }
+                }
+                pauseForManualStep();
+                seekPhase(next);
+            });
+            document.getElementById('charmRestart').addEventListener('click', function () {
+                timelineElapsed = 0;
+                currentStageKey = '';
+                paused = false;
+                document.getElementById('charmPlay').textContent = 'Pause animation';
+                clearLocal();
+                resetGpuDone();
+                updateCross(0);
+                var info = stageInfo(0);
+                updateLocal(info);
+                updateUI(info);
+            });
+
+            /* ---------- speed buttons ---------- */
+            var speedButtons = document.querySelectorAll('.speed-btn');
+            speedButtons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    speed = parseFloat(this.dataset.speed);
+                    speedButtons.forEach(function (b) {
+                        b.classList.toggle('active', b === btn);
+                    });
+                });
+            });
+
+            updateCross(0);
+            var initInfo = stageInfo(0);
+            updateLocal(initInfo);
+            updateUI(initInfo);
+            requestAnimationFrame(tick);
+        })();
+    </script>
+
+    <script>
         /* Animate result bars when they enter the viewport. */
         (function () {
             var bars = document.querySelectorAll('.bar');
             if (!bars.length) return;
-            function play() {bars.forEach(function (b, i) {setTimeout(function () {b.style.width = b.dataset.w + '%';}, i * 90);});}
+            function play() { bars.forEach(function (b, i) { setTimeout(function () { b.style.width = b.dataset.w + '%'; }, i * 90); }); }
             if ('IntersectionObserver' in window) {
                 var io = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (e) {if (e.isIntersecting) {play(); io.disconnect();} });
-                }, {threshold: .25});
+                    entries.forEach(function (e) { if (e.isIntersecting) { play(); io.disconnect(); } });
+                }, { threshold: .25 });
                 io.observe(document.querySelector('.chart'));
             } else setTimeout(play, 400);
         })();
