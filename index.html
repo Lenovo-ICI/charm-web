@@ -781,9 +781,34 @@
             }
 
             .barrow {
-                grid-template-columns: 92px 1fr 52px;
-                gap: 8px;
-                font-size: 11.5px
+                grid-template-columns: 1fr auto;
+                grid-template-areas:
+                    "nm    val"
+                    "track track";
+                align-items: center;
+                column-gap: 8px;
+                row-gap: 5px;
+                margin-bottom: 14px;
+                font-size: 12px;
+            }
+
+            .barrow .nm {
+                grid-area: nm;
+                white-space: normal;
+                /* 关键：允许换行，不再溢出 */
+                line-height: 1.25;
+            }
+
+            .barrow .track {
+                grid-area: track;
+                min-width: 0;
+                /* 防止 grid 子项把轨道撑破 */
+                height: 12px;
+            }
+
+            .barrow .barval {
+                grid-area: val;
+                text-align: right;
             }
 
             /* 顶栏 */
